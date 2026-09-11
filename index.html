@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>موسوعة Abdo_termux العالمية المتقدمة</title>
     <link href="https://googleapis.com" rel="stylesheet">
-    <link rel="stylesheet" href="https://cloudflare.com">
     <style>
         :root {
-            --bg-main: #05070f;
-            --bg-card: #0f1326;
-            --bg-nav: #0a0d1a;
+            --bg-main: #03050a;
+            --bg-card: #0b0e17;
+            --bg-nav: #070911;
             --accent-green: #00ff66;
             --accent-blue: #00d2ff;
             --text-main: #f1f5f9;
@@ -30,9 +29,12 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; transition: background 0.3s, color 0.3s; }
-        body { background-color: var(--bg-main); color: var(--text-main); line-height: 1.6; }
+        body { background-color: var(--bg-main); color: var(--text-main); line-height: 1.6; position: relative; }
         
-        /* شريط علوي ذكي بديل للجانبي ليناسب الكمبيوتر والهاتف معاً */
+        /* تأثير خلفية الماتريكس */
+        canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.15; pointer-events: none; }
+        [data-theme="light"] canvas { opacity: 0.03; }
+
         nav {
             background-color: var(--bg-nav);
             border-bottom: 1px solid var(--border-color);
@@ -43,105 +45,108 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
-        nav h1 { font-size: 1.4rem; color: var(--accent-green); display: flex; align-items: center; gap: 10px; }
+        nav h1 { font-size: 1.4rem; color: var(--accent-green); font-weight: 700; display: flex; align-items: center; gap: 8px; }
         
-        .nav-controls { display: flex; align-items: center; gap: 15px; }
+        .nav-controls { display: flex; align-items: center; gap: 10px; }
         
-        /* زر الوضع الليلي والنهاري */
+        /* أزرار مدمجة لا تحتاج إنترنت */
         .theme-toggle, .menu-toggle {
-            background: none; border: 1px solid var(--border-color); color: var(--text-main);
-            padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 1.1rem;
+            background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main);
+            padding: 10px 14px; border-radius: 8px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
         }
-        .theme-toggle:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+        .theme-toggle:hover, .menu-toggle:hover { border-color: var(--accent-green); color: var(--accent-green); }
 
-        /* القائمة المنسدلة المرنة */
         .nav-menu {
             position: absolute; top: 100%; right: 0; left: 0;
             background-color: var(--bg-nav); border-bottom: 1px solid var(--border-color);
             display: none; flex-direction: column; list-style: none; padding: 10px 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
         }
         .nav-menu.open { display: flex; }
         .nav-menu li a {
-            color: var(--text-main); text-decoration: none; padding: 12px 20px; display: block; font-weight: 500;
+            color: var(--text-main); text-decoration: none; padding: 14px 20px; display: block; font-weight: 500; border-bottom: 1px solid rgba(255,255,255,0.02);
         }
-        .nav-menu li a:hover { background-color: rgba(0, 210, 255, 0.08); color: var(--accent-blue); }
+        .nav-menu li a:hover { background-color: rgba(0, 255, 102, 0.08); color: var(--accent-green); padding-right: 25px; }
 
-        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        .container { max-width: 1200px; margin: 25px auto; padding: 0 20px; position: relative; z-index: 10; }
         
-        /* شريط البحث المتقدم */
-        .search-container { position: relative; margin-bottom: 35px; }
+        .search-container { position: relative; margin-bottom: 30px; }
         .search-container input {
-            width: 100%; padding: 16px 50px 16px 20px; background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); font-size: 1.1rem; outline: none;
+            width: 100%; padding: 16px 20px 16px 50px; background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); font-size: 1.05rem; outline: none; text-align: right;
         }
-        .search-container input:focus { border-color: var(--accent-green); box-shadow: 0 0 15px rgba(0, 255, 102, 0.15); }
-        .search-container i { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.2rem; }
+        .search-container input:focus { border-color: var(--accent-green); box-shadow: 0 0 15px rgba(0, 255, 102, 0.2); }
+        .search-container .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.1rem; pointer-events: none; }
 
-        .section-title { font-size: 1.5rem; margin: 50px 0 20px 0; color: var(--text-main); display: flex; align-items: center; gap: 10px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        .section-title { font-size: 1.45rem; margin: 45px 0 20px 0; color: var(--text-main); display: flex; align-items: center; gap: 10px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 20px; }
         
-        .card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; }
-        .card:hover { transform: translateY(-3px); border-color: var(--accent-green); box-shadow: 0 4px 15px rgba(0, 255, 102, 0.05); }
-        .card h3 { font-size: 1.15rem; margin-bottom: 10px; color: var(--text-main); }
-        .card p { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 12px; text-align: justify; }
+        .card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .card:hover { transform: translateY(-3px); border-color: var(--accent-green); box-shadow: 0 6px 20px rgba(0, 255, 102, 0.08); }
+        .card h3 { font-size: 1.15rem; margin-bottom: 10px; color: var(--text-main); font-weight: 700; }
+        .card p { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 15px; text-align: justify; line-height: 1.6; }
         
-        .badge { background: rgba(0, 210, 255, 0.1); color: var(--accent-blue); padding: 3px 8px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; width: fit-content; margin-bottom: 10px; }
+        .badge { background: rgba(0, 210, 255, 0.1); color: var(--accent-blue); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; width: fit-content; margin-bottom: 12px; }
 
-        .code-block { background: #03050a; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; position: relative; margin: 8px 0; direction: ltr; text-align: left; }
-        .code-block code { font-family: 'Fira Code', monospace; font-size: 0.82rem; color: #e2e8f0; display: block; padding-right: 50px; white-space: pre-wrap; word-break: break-all; }
-        .copy-btn { position: absolute; top: 50%; right: 8px; transform: translateY(-50%); background: #0f1326; border: 1px solid var(--border-color); color: var(--accent-blue); padding: 4px 8px; border-radius: 5px; cursor: pointer; font-size: 0.75rem; }
+        .code-block { background: #020408; border: 1px solid var(--border-color); border-radius: 8px; padding: 14px; position: relative; margin: 8px 0; direction: ltr; text-align: left; }
+        .code-block code { font-family: 'Fira Code', monospace; font-size: 0.82rem; color: #e2e8f0; display: block; padding-right: 60px; white-space: pre-wrap; word-break: break-all; }
+        .copy-btn { position: absolute; top: 50%; right: 8px; transform: translateY(-50%); background: var(--bg-card); border: 1px solid var(--border-color); color: var(--accent-blue); padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: bold; }
 
         @media (min-width: 769px) {
             .menu-toggle { display: none; }
-            .nav-menu { position: static; display: flex; flex-direction: row; border-bottom: none; padding: 0; }
-            .nav-menu li a { padding: 8px 15px; border-radius: 6px; }
+            .nav-menu { position: static; display: flex; flex-direction: row; border-bottom: none; padding: 0; box-shadow: none; width: auto; background: none; }
+            .nav-menu li a { padding: 8px 14px; border-radius: 6px; border-bottom: none; }
         }
     </style>
 </head>
 <body>
 
+    <!-- خلفية الماتريكس التفاعلية الخفيفة -->
+    <canvas id="matrix"></canvas>
+
     <nav>
-        <h1><i class="fa-solid fa-shield-halved"></i> Abdo_termux</h1>
+        <h1>⚡ Abdo_termux</h1>
         <div class="nav-controls">
-            <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn"><i class="fa-solid fa-sun"></i></button>
-            <button class="menu-toggle" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">☀️</button>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
         </div>
         <ul class="nav-menu" id="navMenu">
-            <li><a href="#setup" onclick="toggleMenu()">1. التهيئة والمشاكل</a></li>
-            <li><a href="#pdf-tools" onclick="toggleMenu()">2. أدوات المستندات</a></li>
-            <li><a href="#recon" onclick="toggleMenu()">3. الاستخبارات والجمع</a></li>
-            <li><a href="#scanning" onclick="toggleMenu()">4. فحص الثغرات</a></li>
-            <li><a href="#exploit" onclick="toggleMenu()">5. اختراق السيرفرات</a></li>
-            <li><a href="#social" onclick="toggleMenu()">6. الهندسة الاجتماعية</a></li>
-            <li><a href="#wifi" onclick="toggleMenu()">7. اختراق الوايرلس</a></li>
-            <li><a href="#brute" onclick="toggleMenu()">8. كسر الباسوردات</a></li>
+            <li><a href="#setup" onclick="closeMenu()">1. التهيئة والمشاكل</a></li>
+            <li><a href="#pdf-tools" onclick="closeMenu()">2. أدوات المستندات</a></li>
+            <li><a href="#recon" onclick="closeMenu()">3. الاستخبارات والجمع</a></li>
+            <li><a href="#scanning" onclick="closeMenu()">4. فحص الثغرات</a></li>
+            <li><a href="#exploit" onclick="closeMenu()">5. اختراق السيرفرات</a></li>
+            <li><a href="#social" onclick="closeMenu()">6. الهندسة الاجتماعية</a></li>
+            <li><a href="#wifi" onclick="closeMenu()">7. اختراق الوايرلس</a></li>
+            <li><a href="#brute" onclick="closeMenu()">8. كسر الباسوردات</a></li>
         </ul>
     </nav>
 
     <main class="main-content container">
         <div class="search-container">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="wikiSearch" placeholder="ابحث فوراً عن أي أداة أو سكربت داخل موسوعة عبده..." onkeyup="searchWiki()">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="wikiSearch" placeholder="ابحث مباشرة عن أي أداة أو سكربت في حزمة عبده..." onkeyup="searchWiki()">
         </div>
 
         <!-- 1. حلول المشاكل والتهيئة الأساسية -->
         <section id="setup">
-            <h2 class="section-title"><i class="fa-solid fa-gears"></i> 1. حلول المشاكل والتهيئة الأساسية</h2>
+            <h2 class="section-title">⚙️ 1. حلول المشاكل والتهيئة الأساسية</h2>
             <div class="grid">
                 <div class="card">
                     <span class="badge">تحديث رئيسي</span>
                     <h3>أمر التحديث وحل مشاكل السيرفرات المتوقفة</h3>
-                    <p>أمر متكامل يحل مشكلة تعطل مستودعات تيرمكس ويقوم بتثبيت حزم بايثون وبي إتش بي ونود دفعة واحدة لتفادي أي نقص برميجي.</p>
+                    <p>أمر متكامل يحل مشكلة تعطل مستودعات تيرمكس الرسمية، ويقوم بتثبيت حزم بايثون، بي إتش بي، ونود دفعة واحدة لتفادي نقص الاعتماديات.</p>
                     <div class="code-block">
                         <code>termux-change-repo && pkg update && pkg upgrade -y && pkg install git python python2 python3 php nodejs nano wget curl clang -y</code>
                         <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
                     </div>
                 </div>
                 <div class="card">
-                    <span class="badge">إصلاح بيئة العمل</span>
+                    <span class="badge">إصلاح الحزم</span>
                     <h3>تحديث أداة pip البرمجية وحزم ويل</h3>
-                    <p>أمر إلزامي لإصلاح مشاكل تعطل ملفات requirements.txt الخاصة بالأدوات والسكربتات الحديثة والمتقدمة.</p>
+                    <p>أمر إلزامي لإصلاح مشاكل تعطل ملفات requirements.txt الخاصة بالأدوات والسكربتات الحديثة والمتقدمة لمنع مشاكل التنصيب.</p>
                     <div class="code-block">
                         <code>pip install --upgrade pip && pip install setuptools wheel</code>
                         <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
@@ -152,19 +157,14 @@
 
         <!-- 2. أدوات الكتيب والمستندات -->
         <section id="pdf-tools">
-            <h2 class="section-title"><i class="fa-solid fa-file-code"></i> 2. أدوات الكتيب والمستندات المدمجة</h2>
+            <h2 class="section-title">📁 2. أدوات الكتيب والمستندات المدمجة</h2>
             <div class="grid">
                 <div class="card">
                     <span class="badge">حقن حقيقي</span>
                     <h3>أداة Al-Zaeem الترسانة المتكاملة</h3>
-                    <p>الموسوعة المدمجة المليئة بأدوات جمع المعلومات، فحص الثغرات، واختبار الاختراق المقسمة برقم الاختيار والتي تم إصلاح رابط تحميلها لتنزيلها بالكامل وبدون مشاكل [0.1.5، 0.1.6].</p>
+                    <p>الموسوعة المدمجة المليئة بأدوات جمع المعلومات، فحص الثغرات، واختبار الاختراق المقسمة برقم الاختيار والتي تم إصلاح رابط تحميلها لتنزيلها بالكامل [0.1.5، 0.1.6].</p>
                     <div class="code-block">
                         <code>apt update && apt upgrade -y && apt install git python2 -y && git clone https://github.com && cd alzaeem && python2 alzaeem.py</code>
                         <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
                     </div>
                 </div>
-                <div class="card">
-                    <span class="badge">تحكم أندرويد</span>
-                    <h3>أداة PhoneSploit Pro لاختراق الهواتف</h3>
-                    <p>تستخدم لفحص واختبار اختراق هواتف الأندرويد والتحكم الكامل بها عن بعد عبر الـ ADB اللاسلكي مع بث كاميرا وسحب الرسائل.</p>
-                    <div class="code-block">
