@@ -3,208 +3,280 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم الذكية الرهيبة</title>
+    <title>منصة المراقبة السيبرانية المتقدمة</title>
     <style>
-        /* إعدادات التصميم الأساسية والألوان العصرية */
+        /* إعدادات الألوان والمتغيرات لنظام الليل والنهار */
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-color: #f8fafc;
-            --accent-color: #3b82f6;
-            --success-color: #10b981;
-            --glow-color: rgba(59, 130, 246, 0.5);
+            /* الوضع الافتراضي (الليل/السيبراني الداكن) */
+            --bg-color: #050b14;
+            --panel-bg: rgba(10, 25, 47, 0.85);
+            --border-color: #00ffcc;
+            --text-main: #00ffcc;
+            --text-secondary: #8892b0;
+            --accent-hacker: #ff3366;
+            --accent-defense: #3399ff;
+            --terminal-text: #00ff66;
+            --shadow-glow: rgba(0, 255, 204, 0.3);
+        }
+
+        /* عندما يتم تفعيل وضع النهار (المظهر الفاتح للمكاتب الأمنية) */
+        body.day-mode {
+            --bg-color: #f0f4f8;
+            --panel-bg: rgba(255, 255, 255, 0.95);
+            --border-color: #1e293b;
+            --text-main: #1e293b;
+            --text-secondary: #64748b;
+            --accent-hacker: #dc2626;
+            --accent-defense: #2563eb;
+            --terminal-text: #0f172a;
+            --shadow-glow: rgba(30, 41, 59, 0.15);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Courier New', Courier, monospace, Tahoma;
         }
 
         body {
             background-color: var(--bg-color);
-            color: var(--text-color);
+            color: var(--text-main);
+            transition: all 0.5s ease;
             min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* شريط التحكم العلوي */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px var(--shadow-glow);
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .pulse-dot {
+            width: 12px;
+            height: 12px;
+            background-color: var(--text-main);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* زر تحويل الوقت (ليل / نهار) */
+        .mode-toggle-btn {
+            background: linear-gradient(135deg, var(--accent-defense), var(--border-color));
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .mode-toggle-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* تخطيط الشاشات الرئيسي */
+        .dashboard-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-layout { grid-template-columns: 1fr; }
+        }
+
+        .main-panel, .side-panel {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            padding: 40px 20px;
+            gap: 20px;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            animation: fadeInDown 1s ease;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            color: var(--text-color);
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px var(--glow-color);
-        }
-
-        header p {
-            color: #94a3b8;
-        }
-
-        /* شبكة بطاقات الإحصائيات */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            width: 100%;
-            max-width: 1200px;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* البطاقات البرمجية والشاشات */
+        .crypto-box {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 10px var(--shadow-glow);
             position: relative;
-            overflow: hidden;
-            animation: fadeInUp 1s ease;
         }
 
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px var(--glow-color);
-            border-color: var(--accent-color);
-        }
-
-        .card h3 {
-            font-size: 1.1rem;
-            color: #94a3b8;
-            margin-bottom: 15px;
-        }
-
-        .card .value {
-            font-size: 2.2rem;
-            font-weight: bold;
-            color: #fff;
-            margin-bottom: 10px;
-        }
-
-        .card .status {
-            font-size: 0.9rem;
-            color: var(--success-color);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        /* الزر التفاعلي السحري */
-        .action-zone {
-            margin-top: 40px;
-            text-align: center;
-            animation: fadeInUp 1.2s ease;
-        }
-
-        .mega-btn {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            color: white;
-            border: none;
-            padding: 15px 35px;
+        .box-title {
             font-size: 1.2rem;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* شاشة المحادثة والاتصالات السيبرانية */
+        .terminal-stream {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+            padding: 15px;
+            height: 350px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+
+        .msg {
+            padding: 8px 12px;
+            border-radius: 6px;
+            line-height: 1.4;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .msg.hacker {
+            background: rgba(255, 51, 102, 0.1);
+            border-right: 4px solid var(--accent-hacker);
+            color: #ff4d7d;
+        }
+
+        .msg.defense {
+            background: rgba(51, 153, 255, 0.1);
+            border-right: 4px solid var(--accent-defense);
+            color: #4da6ff;
+        }
+
+        .msg.system {
+            background: rgba(0, 255, 204, 0.05);
+            border-right: 4px solid var(--border-color);
+            color: var(--text-main);
+            font-style: italic;
+        }
+
+        /* عدادات المراقبة */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .stat-val {
+            font-size: 1.6rem;
             font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
-            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 5px;
         }
 
-        .mega-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
+        /* الحركات والأنميشن */
+        @keyframes pulse {
+            0% { transform: scale(0.9); opacity: 0.6; }
+            50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 10px var(--border-color); }
+            100% { transform: scale(0.9); opacity: 0.6; }
         }
 
-        .mega-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* حركات الـ CSS (Animations) */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        /* تخصيش شريط التمرير */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
     </style>
 </head>
 <body>
 
+    <!-- شريط النظام العلوي -->
     <header>
-        <h1>لوحة تحكم المستقبل الذكية</h1>
-        <p>تصميم متكامل يعتمد على تأثيرات التوهج والتفاعل اللحظي</p>
+        <div class="system-status">
+            <div class="pulse-dot"></div>
+            <div>
+                <h2>خادم المراقبة المركزي v4.0</h2>
+                <small id="time-display">جاري تحميل البيانات الحية...</small>
+            </div>
+        </div>
+        <button class="mode-toggle-btn" id="modeBtn">تبديل الوضع (ليل/نهار) 🌓</button>
     </header>
 
-    <!-- شبكة الإحصائيات الاستجابة -->
-    <div class="grid-container">
-        <div class="card">
-            <h3>المستخدمين النشطين الآن</h3>
-            <div class="value" id="users-count">1,240</div>
-            <div class="status">▲ 12% منذ الساعة الماضية</div>
+    <!-- الواجهة الأساسية للمنصة -->
+    <div class="dashboard-layout">
+        
+        <!-- القسم الرئيسي: شاشة المحادثات والعمليات -->
+        <div class="main-panel">
+            <div class="crypto-box">
+                <div class="box-title">
+                    <span>📡 بث مباشر: خط الدفاع والاتصالات السيبرانية المتدفقة</span>
+                    <span style="color: var(--accent-hacker);" id="attack-status">الحالة: مراقبة آمنة</span>
+                </div>
+                <!-- نافذة البيانات التي تتدفق تلقائياً -->
+                <div class="terminal-stream" id="terminalStream">
+                    <div class="msg system">[نظام] تم بدء بروتوكول التشغيل الذاتي... بانتظار رصد الحزم الأمنية.</div>
+                </div>
+            </div>
+
+            <!-- لوحة الهجمات والدفاع السريعة بالأسفل -->
+            <div class="crypto-box">
+                <div class="box-title">📊 عدادات البيانات الفورية للشبكة</div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div>محاولات الاختراق المحجوبة</div>
+                        <div class="stat-val" id="blocked-count" style="color: var(--accent-defense);">3,412</div>
+                    </div>
+                    <div class="stat-card">
+                        <div>تغرات تم رصدها وسدها</div>
+                        <div class="stat-val" id="vuln-count" style="color: yellow;">14</div>
+                    </div>
+                    <div class="stat-card">
+                        <div>حجم التدفق الحالي</div>
+                        <div class="stat-val" style="color: var(--terminal-text);">1.2 Gbps</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="card">
-            <h3>الأرباح الحالية</h3>
-            <div class="value" id="revenue-count">$14,250</div>
-            <div class="status" style="color: #3b82f6;">● تحديث فوري ومباشر</div>
+        <!-- القسم الجانبي: سجل التحليلات وأوامر الاختراق المفرزة -->
+        <div class="side-panel">
+            <div class="crypto-box" style="height: 100%;">
+                <div class="box-title">🛡️ سجل استخبارات التهديدات</div>
+                <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.8;" id="logs-archive">
+                    <p>[00:01] فحص جدار الحماية دوري: مستقر.</p>
+                    <p>[00:15] رصد محاولة مسح منافذ من عنوان IP خارجي عشوائي.</p>
+                </div>
+            </div>
         </div>
 
-        <div class="card">
-            <h3>سرعة استجابة الخادم</h3>
-            <div class="value">94ms</div>
-            <div class="status">✔ ممتاز (مستقر)</div>
-        </div>
-    </div>
-
-    <!-- منطقة التفاعل التلقائي -->
-    <div class="action-zone">
-        <button class="mega-btn" id="boostBtn">تنشيط وضع الأداء الأقصى ⚡</button>
     </div>
 
     <script>
-        // كود الجافا سكريبت لإضافة التفاعل الحي المحاكي للواقع
-        const usersElement = document.getElementById('users-count');
-        const boostButton = document.getElementById('boostBtn');
-
-        // 1. محاكاة تحديث البيانات الحية تلقائياً كل ثانيتين
-        setInterval(() => {
-            let currentUsers = parseInt(usersElement.innerText.replace(',', ''));
-            // توليد زيادة أو نقصان عشوائي بسيط
-            let change = Math.floor(Math.random() * 21) - 10; 
-            let newUsers = currentUsers + change;
-            usersElement.innerText = newUsers.toLocaleString('en-US');
-        }, 2000);
-
-        // 2. زر تفاعلي يحدث تأثيراً عند الضغط عليه
-        boostButton.addEventListener('click', () => {
-            // تغيير واجهة المستخدم بشكل فوري ومبهر
-            document.body.style.transition = 'background-color 0.5s';
-            document.body.style.backgroundColor = '#1e1b4b'; // تغيير الخلفية للون داكن ملكي
-            
-            boostButton.innerText = "🚀 تم تفعيل السرعة القصوى!";
-            boostButton.style.background = "linear-gradient(135deg, #10b981, #059669)";
-            
-            // زيادة الإحصائيات كدليل على التفاعل
-            usersElement.innerText = (parseInt(usersElement.innerText.replace(',', '')) + 500).toLocaleString('en-US');
-            
-            // إعادة الوضع الطبيعي بعد 3 ثوانٍ
-            setTimeout(() => {
-                document.body.style.backgroundColor = '#0f172a';
-                boostButton.innerText = "تنشيط وضع الأداء الأقصى ⚡";
-                boostButton.style.background = "linear-gradient(135deg, #3b82f6, #8b5cf6)";
-            }, 3000);
-        });
-    </script>
-
-</body>
-</html>
+        // مصفوفة ضخمة من الحوارات التفاعلية والسيناريوهات الأمنية المحاكية للواقع
+        const cyberDialogues = [
+            { type: 'hacker', text: "[هجوم هكر] رصد ثغرة غير مصلحة في قاعدة بيانات خادم الويب الخارجي.. جاري حقن كود خبيث SQL Injection..." },
+            { type: 'defense', text: "[الأمن السيبراني] إنذار أمني مبكر! تم استشعار حركة غريبة في الخادم. تفعيل جدار الحماية الذكي وحظر الـ IP المهاجم فوراً." },
+            { type: 'system', text: "[نظام] تم صد المحاولة بنجاح وعزل قاعدة البيانات الحساسة." },
+            { type: 'hacker', text: "[هجوم هكر] يبدو أنهم منتبهون.. سأحول الهجوم إلى بروتوكول DDoS وعمل فيض من الطلبات لإسقاط الشبكة كاملة عن العمل!" },
+            { type: 'defense', text: "[الأمن السيبراني] ارتفاع هائل ومفاجئ في حركة المرور! تشغيل نظام توزيع الحمولات واستخدام حماية Cloudflare الذكية لتصفية الحزم." },
+            { type: 'system', text: "[نظام] حظر 2500 طلب وهمي قادم من شبكة بوت نت (Botnet) دولية." },
+            { type: 'hacker', text: "[هجوم هكر] محاولة أخيرة: إرسال بريد الكتروني تصيدي (Phishing) يستهدف الموظفين للحصول على صلاحيات الإدارة العليا." },
