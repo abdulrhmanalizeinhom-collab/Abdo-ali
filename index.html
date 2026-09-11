@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Termux Web Dashboard Pro</title>
+    <title>Termux Web Dashboard</title>
     <style>
         /* إعدادات المتغيرات لوضع الليل والنهار */
         :root {
@@ -14,7 +14,6 @@
             --border-color: #21262d;
             --accent-color: #ff0055;
             --cmd-color: #00bfff;
-            --tab-active: #21262d;
         }
 
         [data-theme="light"] {
@@ -25,7 +24,6 @@
             --border-color: #ccd1d9;
             --accent-color: #d11141;
             --cmd-color: #0080ff;
-            --tab-active: #e6eaf0;
         }
 
         body {
@@ -43,7 +41,7 @@
             justify-content: space-between;
             align-items: center;
             max-width: 900px;
-            margin: 0 auto 10px auto;
+            margin: 0 auto 20px auto;
             padding: 10px;
         }
 
@@ -59,41 +57,11 @@
             transition: all 0.3s ease;
         }
 
-        /* نظام التبويبات (Tabs) للتنقل */
-        .tabs-container {
-            display: flex;
-            max-width: 900px;
-            margin: 0 auto;
-            gap: 5px;
-        }
-
-        .tab-button {
-            background-color: transparent;
-            color: var(--text-secondary);
-            border: 2px solid var(--border-color);
-            border-bottom: none;
-            padding: 10px 20px;
-            font-family: inherit;
-            font-weight: bold;
-            cursor: pointer;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-            transition: all 0.2s ease;
-        }
-
-        .tab-button.active {
-            background-color: var(--terminal-bg);
-            color: var(--text-color);
-            border-bottom: 2px solid var(--terminal-bg);
-            margin-bottom: -2px;
-            z-index: 2;
-        }
-
         /* حاوية الترمكس الاحترافية */
         .terminal {
             background-color: var(--terminal-bg);
             border: 2px solid var(--border-color);
-            border-radius: 0px 0px 8px 8px;
+            border-radius: 8px;
             max-width: 900px;
             margin: 0 auto;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -134,15 +102,6 @@
             line-height: 1.6;
         }
 
-        /* إخفاء المحتوى غير النشط */
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
         /* تصميم النصوص الرائقة */
         .ascii-art {
             color: var(--accent-color);
@@ -162,7 +121,7 @@
         }
 
         li {
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             padding-right: 15px;
             position: relative;
         }
@@ -181,6 +140,11 @@
             font-size: 13px;
             color: var(--text-secondary);
         }
+
+        .divider {
+            border-top: 1px dashed var(--border-color);
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
@@ -188,13 +152,6 @@
     <div class="header">
         <h2>لوحة تحكم ترمكس المطور 🚀</h2>
         <button class="theme-btn" id="themeToggle">تبديل الوضع 🌓</button>
-    </div>
-
-    <!-- أزرار التنقل بين الأقسام -->
-    <div class="tabs-container">
-        <button class="tab-button active" onclick="openTab('home')">الرئيسية الأداوت</button>
-        <button class="tab-button" onclick="openTab('basics')">اساسيات الترمكس</button>
-        <button class="tab-button" onclick="openTab('cybersec')">الأمن السيبراني</button>
     </div>
 
     <div class="terminal">
@@ -208,9 +165,6 @@
         </div>
 
         <div class="terminal-body">
-            
-            <!-- التبويب الأول: الأدوات الرئيسية -->
-            <div id="home" class="tab-content active">
 <div class="ascii-art">
  _____ _____ ____  __  __ _   VX 
 
@@ -219,47 +173,72 @@
   | | | |___|  _ <| |  | | |_|  / /
   |_| |_____|_| \_\_|  |_|\___/ /_/ 
 </div>
-                <p><span class="command">~ $</span> pkg status --check</p>
-                <p style="color: #27c93f;">[✓] جميع الأنظمة تعمل بنجاح ومستضافة على Vercel!</p>
-                
-                <h3 style="color: var(--accent-color);">[+] أدوات الاختراق وفحص الأندرويد الأساسية:</h3>
-                <ul>
-                    <li><span class="command">PhoneSploit Pro</span> - أداة فحص واختراق الأندرويد عبر بروتوكول ADB عن بُعد.</li>
-                    <li><span class="command">Al-Zaeem Tool</span> - حزمة مجمعة لأدوات جمع المعلومات واختبار الثغرات.</li>
-                    <li><span class="command">Nmap & Metasploit</span> - لفحص الشبكات واستغلال الثغرات الأمنية المتقدمة.</li>
-                </ul>
+            <p><span class="command">~ $</span> pkg status --check</p>
+            <p style="color: #27c93f;">[✓] جميع الأنظمة تعمل بنجاح ومستضافة على Vercel!</p>
+            
+            <!-- [+] قسم أدوات الاختراق الأساسية -->
+            <h3 style="color: var(--accent-color);">[+] أدوات الاختراق وفحص الأندرويد الأساسية:</h3>
+            <ul>
+                <li><span class="command">PhoneSploit Pro</span> - أداة فحص واختراق الأندرويد عبر بروتوكول ADB عن بُعد.</li>
+                <li><span class="command">Al-Zaeem Tool</span> - حزمة مجمعة لأدوات جمع المعلومات واختبار الثغرات.</li>
+                <li><span class="command">Nmap & Metasploit</span> - لفحص الشبكات واستغلال الثغرات الأمنية المتقدمة.</li>
+            </ul>
 
-                <h3 style="color: var(--accent-color);">[+] أوامر التشغيل السريعة للأدوات:</h3>
-                <p><span class="comment"># لتشغيل أداة فون سبلويت برو:</span><br>
-                <span class="command">~ $</span> cd PhoneSploit-Pro && python phonesploitpro.py</p>
+            <!-- [+] قسم أوامر التشغيل السريعة للأدوات -->
+            <h3 style="color: var(--accent-color);">[+] أوامر التشغيل السريعة للأدوات:</h3>
+            <p><span class="comment"># لتشغيل أداة فون سبلويت برو:</span><br>
+            <span class="command">~ $</span> cd PhoneSploit-Pro && python phonesploitpro.py</p>
 
-                <p><span class="comment"># لتشغيل أداة الزعيم:</span><br>
-                <span class="command">~ $</span> cd alzaeem && python2 alzaeem.py</p>
+            <p><span class="comment"># لتشغيل أداة الزعيم:</span><br>
+            <span class="command">~ $</span> cd alzaeem && python2 alzaeem.py</p>
+
+            <div class="divider"></div>
+
+            <!-- [+] قسم أساسيات الترمكس -->
+            <h3 style="color: var(--accent-color);">[+] أوامر وحزم أساسيات الترمكس الأساسية:</h3>
+            <p><span class="comment"># لتحديث حزم نظام ترمكس بالكامل ومنع الأخطاء:</span><br>
+            <span class="command">~ $</span> apt update && apt upgrade -y</p>
+
+            <p><span class="comment"># لتثبيت لغة بايثون والمستودع جيت:</span><br>
+            <span class="command">~ $</span> apt install git python2 -y</p>
+
+            <p><span class="comment"># إعطاء صلاحيات تخزين الملفات وإدارة الحزم:</span><br>
+            <span class="command">~ $</span> termux-setup-storage && pkg install php nano -y</p>
+
+            <div class="divider"></div>
+
+            <!-- [+] قسم مفاهيم الأمن السيبراني -->
+            <h3 style="color: var(--accent-color);">[+] مسارات وأساسيات الأمن السيبراني:</h3>
+            <ul>
+                <li><span class="command">Information Gathering</span> - جمع المعلومات الأساسية للهدف فحص المنافذ.</li>
+                <li><span class="command">Vulnerability Scanner</span> - فحص ثغرات الموقع البرمجية وقواعد البيانات.</li>
+                <li><span class="command">Exploitation Tools</span> - أدوات استغلال الثغرات وتأكيد الاختراق الأخلاقي.</li>
+            </ul>
+
+            <div class="footer-note">
+                <p>تنبيـه: ميزة تغيير الألوان (الليل والنهار) شغالة وتعمل بشكل ديناميكي وحركي مريح للعين.</p>
             </div>
+        </div>
+    </div>
 
-            <!-- التبويب الثاني: أساسيات الترمكس -->
-            <div id="basics" class="tab-content">
-                <h3 style="color: var(--accent-color);">[+] حزم وأوامر أساسيات ترمكس الأساسية (Termux Basics):</h3>
-                <p><span class="comment"># يجب تثبيت هذه الأوامر أولاً لتفادي المشاكل داخل التطبيق:</span></p>
-                <ul>
-                    <li><span class="command">pkg update && pkg upgrade -y</span> - تحديث المستودعات وحزم النظام لآخر إصدار.</li>
-                    <li><span class="command">termux-setup-storage</span> - إعطاء ترمكس صلاحية الوصول لذاكرة الهاتف الداخلية.</li>
-                    <li><span class="command">pkg install git -y</span> - تثبيت أداة Git لتحميل السكربتات والمستودعات من GitHub.</li>
-                    <li><span class="command">pkg install python python2 python3 -y</span> - تثبيت لغات بايثون لتشغيل ملفات .py</li>
-                    <li><span class="command">pkg install php curl wget nano -y</span> - تثبيت أدوات سحب الروابط وتعديل النصوص البرمجية.</li>
-                </ul>
-                <p><span class="comment"># أوامر التنقل الأساسية:</span><br>
-                <span class="command">ls</span> (لعرض الملفات) | <span class="command">cd</span> (للدخول للمجلد) | <span class="command">clear</span> (لتنظيف الشاشة)</p>
-            </div>
+    <script>
+        // كود الجافا سكربت لتشغيل تبديل وضع الليل والنهار
+        const themeToggle = document.getElementById('themeToggle');
+        
+        // التحقق من الثيم المفضل المخزن سابقاً
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', currentTheme);
 
-            <!-- التبويب الثالث: الأمن السيبراني -->
-            <div id="cybersec" class="tab-content">
-                <h3 style="color: var(--accent-color);">[+] دليل خارطة طريق الأمن السيبراني واختبار الاختراق:</h3>
-                <p><span class="comment"># مجالات ومهام فحص الأنظمة الأخلاقي:</span></p>
-                <ul>
-                    <li><span class="command">Information Gathering (جمع المعلومات):</span> المرحلة الأولى والأهم، تستخدم فيها أدوات مثل <span class="command">Nmap</span> و <span class="command">Red Hawk</span> لكشف المنافذ والبيانات المفتوحة.</li>
-                    <li><span class="command">Vulnerability Scanning (فحص الثغرات):</span> البحث عن نقاط الضعف في السيرفرات والمواقع باستخدام سكربتات مخصصة أو أداة <span class="command">sqlmap</span> لحقن قواعد البيانات.</li>
-                    <li><span class="command">Wireless & Network Auditing:</span> فحص ثغرات الشبكات اللاسلكية والتأكد من قوة تشفير المودم والراوتر ضد الهجمات.</li>
-                    <li><span class="command">Social Engineering (الهندسة الاجتماعية):</span> التوعية الأمنية ضد صفحات التصيد والروابط المزورة التي تستهدف وعي المستخدم البشري.</li>
-                </ul>
-                <p style="color: #ffbd2e;">⚠️ تنبيه أمني: يقتصر استخدام هذه المفاهيم والأدوات في أغراض التعليم، والتوعية الأمنية، واختبار اختراق الأنظمة المصرح لك بفحصها فقط.</p>
+        themeToggle.addEventListener('click', () => {
+            let theme = document.documentElement.getAttribute('data-theme');
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    </script>
+</body>
+</html>
