@@ -3,188 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موسوعة Abdo_termux العالمية المتقدمة</title>
-    <!-- تم تصحيح رابط الخط لدعم الخط العربي بشكل صحيح -->
-    <link href="https://googleapis.com" rel="stylesheet">
+    <title>Termux Web Dashboard</title>
     <style>
+        /* إعدادات المتغيرات لوضع الليل والنهار */
         :root {
-            --bg-main: #05070f;
-            --bg-card: #0f1326;
-            --bg-nav: #0a0d1a;
-            --accent-green: #00ff66;
-            --accent-blue: #00d2ff;
-            --text-main: #f1f5f9;
-            --text-muted: #64748b;
-            --border-color: #1e293b;
+            --bg-color: #0c0f12;
+            --terminal-bg: #15191e;
+            --text-color: #00ff66;
+            --text-secondary: #8892b0;
+            --border-color: #21262d;
+            --accent-color: #ff0055;
+            --cmd-color: #00bfff;
         }
 
         [data-theme="light"] {
-            --bg-main: #f8fafc;
-            --bg-card: #ffffff;
-            --bg-nav: #f1f5f9;
-            --accent-green: #16a34a;
-            --accent-blue: #0284c7;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border-color: #cbd5e1;
+            --bg-color: #f4f6f9;
+            --terminal-bg: #ffffff;
+            --text-color: #1a1a1a;
+            --text-secondary: #555555;
+            --border-color: #ccd1d9;
+            --accent-color: #d11141;
+            --cmd-color: #0080ff;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; transition: background 0.2s, color 0.2s; }
-        body { background-color: var(--bg-main); color: var(--text-main); line-height: 1.6; padding-bottom: 40px; overflow-x: hidden; }
-        
-        canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.15; pointer-events: none; }
-        [data-theme="light"] canvas { opacity: 0.02; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
 
-        /* شريط التنقل */
-        nav {
-            background-color: var(--bg-nav);
-            border-bottom: 1px solid var(--border-color);
-            padding: 15px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+        /* شريط التحكم العلوي */
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            max-width: 900px;
+            margin: 0 auto 20px auto;
+            padding: 10px;
         }
 
-        nav h1 { font-size: 1.4rem; color: var(--accent-green); font-weight: 700; }
-        .nav-controls { display: flex; align-items: center; gap: 10px; }
-        
-        .theme-toggle, .menu-toggle {
-            background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main);
-            padding: 10px 14px; border-radius: 8px; cursor: pointer; font-size: 1.1rem;
+        .theme-btn {
+            background: var(--text-color);
+            color: var(--bg-color);
+            border: none;
+            padding: 8px 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            font-family: inherit;
+            transition: all 0.3s ease;
         }
 
-        /* القائمة المنسدلة */
-        .nav-menu {
-            position: absolute; top: 100%; right: 0; left: 0;
-            background-color: var(--bg-nav); border-bottom: 1px solid var(--border-color);
-            display: none; flex-direction: column; list-style: none; padding: 10px 0;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        /* حاوية الترمكس الاحترافية */
+        .terminal {
+            background-color: var(--terminal-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            max-width: 900px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
         }
-        
-        /* كلاس إجباري لعرض القائمة */
-        .nav-menu.show-menu { display: flex !important; }
-        
-        .nav-menu li a {
-            color: var(--text-main); text-decoration: none; padding: 14px 20px; display: block; font-weight: 500; border-bottom: 1px solid rgba(255,255,255,0.02);
+
+        .terminal-header {
+            background-color: var(--border-color);
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            direction: ltr;
         }
-        .nav-menu li a:hover { background-color: rgba(0, 255, 102, 0.06); color: var(--accent-green); padding-right: 25px; }
 
-        .container { max-width: 1200px; margin: 25px auto; padding: 0 20px; }
-        
-        /* شريط البحث */
-        .search-container { position: relative; margin-bottom: 30px; }
-        .search-container input {
-            width: 100%; padding: 16px 50px 16px 20px; background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); font-size: 1.05rem; outline: none; text-align: right;
+        .buttons {
+            display: flex;
+            gap: 8px;
         }
-        .search-container input:focus { border-color: var(--accent-green); box-shadow: 0 0 15px rgba(0, 255, 102, 0.15); }
-        .search-container .search-icon { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.1rem; pointer-events: none; }
 
-        .section-block { margin-bottom: 40px; }
-        .section-title { font-size: 1.45rem; margin: 30px 0 20px 0; color: var(--text-main); display: flex; align-items: center; gap: 10px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 20px; }
+        .btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .btn-red { background-color: #ff5f56; }
+        .btn-yellow { background-color: #ffbd2e; }
+        .btn-green { background-color: #27c93f; }
+
+        .title {
+            margin: 0 auto;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .terminal-body {
+            padding: 20px;
+            min-height: 450px;
+            line-height: 1.6;
+        }
+
+        /* تصميم النصوص الرائقة */
+        .ascii-art {
+            color: var(--accent-color);
+            white-space: pre;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .command { color: var(--cmd-color); }
+        .comment { color: var(--text-secondary); }
         
-        .card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .card:hover { transform: translateY(-3px); border-color: var(--accent-green); box-shadow: 0 6px 20px rgba(0, 255, 102, 0.05); }
-        .card h3 { font-size: 1.15rem; margin-bottom: 10px; color: var(--text-main); font-weight: 700; }
-        .card p { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 15px; text-align: justify; line-height: 1.6; }
-        
-        .badge { background: rgba(0, 210, 255, 0.1); color: var(--accent-blue); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; width: fit-content; margin-bottom: 12px; }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
 
-        .code-block { background: #020408; border: 1px solid var(--border-color); border-radius: 8px; padding: 14px; position: relative; margin: 8px 0; direction: ltr; text-align: left; }
-        .code-block code { font-family: monospace; font-size: 0.82rem; color: #e2e8f0; display: block; padding-right: 60px; white-space: pre-wrap; word-break: break-all; }
-        .copy-btn { position: absolute; top: 50%; right: 8px; transform: translateY(-50%); background: var(--bg-card); border: 1px solid var(--border-color); color: var(--accent-blue); padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: bold; }
-        .copy-btn:hover { background: var(--accent-blue); color: #fff; }
+        li {
+            margin-bottom: 8px;
+            padding-right: 15px;
+            position: relative;
+        }
 
-        @media (min-width: 769px) {
-            .menu-toggle { display: none; }
-            .nav-menu { position: static; display: flex; flex-direction: row; border-bottom: none; padding: 0; box-shadow: none; width: auto; background: none; }
-            .nav-menu li a { padding: 8px 14px; border-radius: 6px; border-bottom: none; }
+        li::before {
+            content: "⚡";
+            position: absolute;
+            right: -10px;
+            color: var(--accent-color);
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            border-top: 1px dashed var(--border-color);
+            padding-top: 15px;
+            font-size: 13px;
+            color: var(--text-secondary);
         }
     </style>
 </head>
 <body>
 
-    <canvas id="matrix"></canvas>
+    <div class="header">
+        <h2>لوحة تحكم ترمكس المطور 🚀</h2>
+        <button class="theme-btn" id="themeToggle">تبديل الوضع 🌓</button>
+    </div>
 
-    <nav>
-        <h1>⚡ Abdo_termux</h1>
-        <div class="nav-controls">
-            <button class="theme-toggle" id="themeBtn" onclick="executeToggleTheme()">☀️</button>
-            <button class="menu-toggle" onclick="executeToggleMenu()">☰</button>
-        </div>
-        <ul class="nav-menu" id="navMenu">
-            <li><a href="#setup" onclick="executeCloseMenu()">1. التهيئة والمشاكل</a></li>
-            <li><a href="#pdf-tools" onclick="executeCloseMenu()">2. أدوات المستندات</a></li>
-            <li><a href="#recon" onclick="executeCloseMenu()">3. الاستخبارات والجمع</a></li>
-            <li><a href="#scanning" onclick="executeCloseMenu()">4. فحص الثغرات</a></li>
-            <li><a href="#exploit" onclick="executeCloseMenu()">5. اختراق السيرفرات</a></li>
-            <li><a href="#social" onclick="executeCloseMenu()">6. الهندسة الاجتماعية</a></li>
-            <li><a href="#wifi" onclick="executeCloseMenu()">7. اختراق الوايرلس</a></li>
-            <li><a href="#brute" onclick="executeCloseMenu()">8. كسر الباسوردات</a></li>
-        </ul>
-    </nav>
-
-    <main class="main-content container">
-        <div class="search-container">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="wikiSearch" placeholder="ابحث فورا بالاسم أو الوصف (مثال: nmap, sqlmap, زعيم)..." oninput="executeSearch()">
-        </div>
-
-        <!-- 1. حلول المشاكل والتهيئة الأساسية -->
-        <section id="setup" class="section-block">
-            <h2 class="section-title">⚙️ 1. حلول المشاكل والتهيئة الأساسية</h2>
-            <div class="grid">
-                <div class="card">
-                    <span class="badge">تحديث رئيسي</span>
-                    <h3>أمر التحديث وحل مشاكل السيرفرات المتوقفة</h3>
-                    <p>أمر متكامل يحل مشكلة تعطل مستودعات تيرمكس الرسمية، ويقوم بتثبيت حزم بايثون، بي إتش بي، ونود دفعة واحدة لتفادي نقص الاعتماديات.</p>
-                    <div class="code-block">
-                        <code>termux-change-repo && pkg update && pkg upgrade -y && pkg install git python python2 python3 php nodejs nano wget curl clang -y</code>
-                        <button class="copy-btn" onclick="executeCopy(this)">نسخ</button>
-                    </div>
-                </div>
-                <!-- يمكنك إضافة بقية البطاقات هنا داخل الـ grid -->
+    <div class="terminal">
+        <div class="terminal-header">
+            <div class="buttons">
+                <div class="btn btn-red"></div>
+                <div class="btn btn-yellow"></div>
+                <div class="btn btn-green"></div>
             </div>
-        </section>
+            <div class="title">termux@vercel-dashboard:~</div>
+        </div>
 
-        <!-- باقي الأقسام يمكن إضافتها هنا بنفس الهيكل الفوقي للبطاقات -->
-    </main>
+        <div class="terminal-body">
+<div class="ascii-art">
+ _____ _____ ____  __  __ _   VX 
+
+|_   _| ____|  _ \|  \/  | | | \ \
+  | | |  _| | |_) | |\/| | | |  \ \
+  | | | |___|  _ <| |  | | |_|  / /
+  |_| |_____|_| \_\_|  |_|\___/ /_/ 
+</div>
+            <p><span class="command">~ $</span> pkg status --check</p>
+            <p style="color: #27c93f;">[✓] جميع الأنظمة تعمل بنجاح ومستضافة على Vercel!</p>
+            
+            <h3 style="color: var(--accent-color);">[+] أدوات الاختراق وفحص الأندرويد الأساسية:</h3>
+            <ul>
+                <li><span class="command">PhoneSploit Pro</span> - أداة فحص واختراق الأندرويد عبر بروتوكول ADB عن بُعد.</li>
+                <li><span class="command">Al-Zaeem Tool</span> - حزمة مجمعة لأدوات جمع المعلومات واختبار الثغرات.</li>
+                <li><span class="command">Nmap & Metasploit</span> - لفحص الشبكات واستغلال الثغرات الأمنية المتقدمة.</li>
+            </ul>
+
+            <h3 style="color: var(--accent-color);">[+] أوامر التشغيل السريعة للأدوات:</h3>
+            <p><span class="comment"># لتشغيل أداة فون سبلويت برو:</span><br>
+            <span class="command">~ $</span> cd PhoneSploit-Pro && python phonesploitpro.py</p>
+
+            <p><span class="comment"># لتشغيل أداة الزعيم:</span><br>
+            <span class="command">~ $</span> cd alzaeem && python2 alzaeem.py</p>
+
+            <div class="footer-note">
+                <p>تنبيه: ميزة تغيير الألوان (الليل والنهار) تعمل بشكل ديناميكي وحركي مريح للعين.</p>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // 1. وظيفة تشغيل وإغلاق القائمة المنسدلة في الجوال
-        function executeToggleMenu() {
-            const menu = document.getElementById('navMenu');
-            menu.classList.toggle('show-menu');
-        }
+        // كود الجافا سكربت لتشغيل تبديل وضع الليل والنهار
+        const themeToggle = document.getElementById('themeToggle');
         
-        function executeCloseMenu() {
-            const menu = document.getElementById('navMenu');
-            menu.classList.remove('show-menu');
-        }
+        // التحقق من الثيم المفضل المخزن سابقاً
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', currentTheme);
 
-        // 2. وظيفة التبديل بين الوضع الليلي والنهاري (Theme Toggle)
-        function executeToggleTheme() {
-            const body = document.documentElement;
-            const themeBtn = document.getElementById('themeBtn');
-            if (body.getAttribute('data-theme') === 'light') {
-                body.removeAttribute('data-theme');
-                themeBtn.innerText = '☀️';
+        themeToggle.addEventListener('click', () => {
+            let theme = document.documentElement.getAttribute('data-theme');
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
             } else {
-                body.setAttribute('data-theme', 'light');
-                themeBtn.innerText = '🌙';
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
             }
-        }
-
-        // 3. وظيفة نسخ الأكواد بضغطة زر
-        function executeCopy(button) {
-            const code = button.previousElementSibling.innerText;
-            navigator.clipboard.writeText(code).then(() => {
-                const originalText = button.innerText;
-                button.innerText = 'تم النسخ!';
-                button.style.color = 'var(--accent-green)';
-                setTimeout(() => {
-                    button.innerText = originalText;
+        });
+    </script>
+</body>
+</html>
