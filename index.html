@@ -3,27 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Termux Web Dashboard</title>
+    <title>Wiki Termux - abdo_termux</title>
     <style>
         /* إعدادات المتغيرات لوضع الليل والنهار */
         :root {
             --bg-color: #0c0f12;
-            --terminal-bg: #15191e;
+            --terminal-bg: #111418;
             --text-color: #00ff66;
             --text-secondary: #8892b0;
-            --border-color: #21262d;
+            --border-color: #1f242c;
             --accent-color: #ff0055;
             --cmd-color: #00bfff;
+            --card-bg: #161b22;
         }
 
         [data-theme="light"] {
-            --bg-color: #f4f6f9;
+            --bg-color: #f0f2f5;
             --terminal-bg: #ffffff;
             --text-color: #1a1a1a;
             --text-secondary: #555555;
-            --border-color: #ccd1d9;
+            --border-color: #d0d7de;
             --accent-color: #d11141;
-            --cmd-color: #0080ff;
+            --cmd-color: #0066cc;
+            --card-bg: #f6f8fa;
         }
 
         body {
@@ -31,18 +33,29 @@
             color: var(--text-color);
             font-family: 'Courier New', Courier, monospace;
             margin: 0;
-            padding: 20px;
+            padding: 15px;
             transition: all 0.3s ease;
         }
 
-        /* شريط التحكم العلوي */
+        /* الهيدر العلوي */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 900px;
-            margin: 0 auto 20px auto;
-            padding: 10px;
+            max-width: 1000px;
+            margin: 0 auto 15px auto;
+            background: var(--terminal-bg);
+            padding: 12px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .user-tag {
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 18px;
+            letter-spacing: 1px;
         }
 
         .theme-btn {
@@ -54,16 +67,16 @@
             cursor: pointer;
             border-radius: 5px;
             font-family: inherit;
-            transition: all 0.3s ease;
+            transition: all 0.2s;
         }
 
-        /* حاوية الترمكس الاحترافية */
-        .terminal {
+        /* الحاوية الرئيسية للموقع */
+        .wiki-container {
+            max-width: 1000px;
+            margin: 0 auto;
             background-color: var(--terminal-bg);
             border: 2px solid var(--border-color);
             border-radius: 8px;
-            max-width: 900px;
-            margin: 0 auto;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             overflow: hidden;
         }
@@ -76,169 +89,176 @@
             direction: ltr;
         }
 
-        .buttons {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
+        .buttons { display: flex; gap: 8px; }
+        .btn { width: 12px; height: 12px; border-radius: 50%; }
         .btn-red { background-color: #ff5f56; }
         .btn-yellow { background-color: #ffbd2e; }
         .btn-green { background-color: #27c93f; }
-
-        .title {
-            margin: 0 auto;
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
+        .title { margin: 0 auto; color: var(--text-secondary); font-size: 14px; }
 
         .terminal-body {
             padding: 20px;
-            min-height: 450px;
-            line-height: 1.6;
         }
 
-        /* تصميم النصوص الرائقة */
-        .ascii-art {
+        /* لوحة البحث الفورية */
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            color: var(--text-color);
+            font-family: inherit;
+            font-size: 16px;
+            border-radius: 6px;
+            box-sizing: border-box;
+            margin-bottom: 25px;
+        }
+        .search-box::placeholder { color: var(--text-secondary); }
+
+        /* تقسيم الأقسام */
+        .section-title {
             color: var(--accent-color);
-            white-space: pre;
+            border-bottom: 2px dashed var(--border-color);
+            padding-bottom: 8px;
+            margin-top: 30px;
+            font-size: 20px;
+        }
+
+        /* نظام الشبكة الذكي للأدوات والأساسيات */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,200,0,0.1);
+        }
+
+        .card-title {
             font-weight: bold;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-
-        .command { color: var(--cmd-color); }
-        .comment { color: var(--text-secondary); }
-        
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 15px 0;
-        }
-
-        li {
+            color: var(--cmd-color);
+            margin-top: 0;
             margin-bottom: 8px;
-            padding-right: 15px;
-            position: relative;
+            font-size: 16px;
         }
 
-        li::before {
-            content: "⚡";
-            position: absolute;
-            right: -10px;
-            color: var(--accent-color);
+        .card-desc {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin: 0 0 10px 0;
+            line-height: 1.4;
+        }
+
+        .code-block {
+            background: rgba(0,0,0,0.2);
+            padding: 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--text-color);
+            word-break: break-all;
+            display: block;
+            border: 1px solid var(--border-color);
         }
 
         .footer-note {
-            margin-top: 30px;
+            margin-top: 40px;
             border-top: 1px dashed var(--border-color);
             padding-top: 15px;
             font-size: 13px;
             color: var(--text-secondary);
-        }
-
-        .divider {
-            border-top: 1px dashed var(--border-color);
-            margin: 20px 0;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
+    <!-- الهيدر العلوي الحامل لإسمك وزر التحكم -->
     <div class="header">
-        <h2>لوحة تحكم ترمكس المطور 🚀</h2>
+        <div class="user-tag">👑 wiki@abdo_termux</div>
         <button class="theme-btn" id="themeToggle">تبديل الوضع 🌓</button>
     </div>
 
-    <div class="terminal">
+    <div class="wiki-container">
         <div class="terminal-header">
             <div class="buttons">
                 <div class="btn btn-red"></div>
                 <div class="btn btn-yellow"></div>
                 <div class="btn btn-green"></div>
             </div>
-            <div class="title">termux@vercel-dashboard:~</div>
+            <div class="title">abdo_termux@wiki-database:~</div>
         </div>
 
         <div class="terminal-body">
-<div class="ascii-art">
- _____ _____ ____  __  __ _   VX 
+            <!-- شريط بحث حقيقي يقوم بفلترة الأدوات فوراً -->
+            <input type="text" id="searchInput" class="search-box" placeholder="🔍 اكتب اسم الأداة أو الأمر للبحث السريع التلقائي...">
 
-|_   _| ____|  _ \|  \/  | | | \ \
-  | | |  _| | |_) | |\/| | | |  \ \
-  | | | |___|  _ <| |  | | |_|  / /
-  |_| |_____|_| \_\_|  |_|\___/ /_/ 
-</div>
-            <p><span class="command">~ $</span> pkg status --check</p>
-            <p style="color: #27c93f;">[✓] جميع الأنظمة تعمل بنجاح ومستضافة على Vercel!</p>
-            
-            <!-- [+] قسم أدوات الاختراق الأساسية -->
-            <h3 style="color: var(--accent-color);">[+] أدوات الاختراق وفحص الأندرويد الأساسية:</h3>
-            <ul>
-                <li><span class="command">PhoneSploit Pro</span> - أداة فحص واختراق الأندرويد عبر بروتوكول ADB عن بُعد.</li>
-                <li><span class="command">Al-Zaeem Tool</span> - حزمة مجمعة لأدوات جمع المعلومات واختبار الثغرات.</li>
-                <li><span class="command">Nmap & Metasploit</span> - لفحص الشبكات واستغلال الثغرات الأمنية المتقدمة.</li>
-            </ul>
-
-            <!-- [+] قسم أوامر التشغيل السريعة للأدوات -->
-            <h3 style="color: var(--accent-color);">[+] أوامر التشغيل السريعة للأدوات:</h3>
-            <p><span class="comment"># لتشغيل أداة فون سبلويت برو:</span><br>
-            <span class="command">~ $</span> cd PhoneSploit-Pro && python phonesploitpro.py</p>
-
-            <p><span class="comment"># لتشغيل أداة الزعيم:</span><br>
-            <span class="command">~ $</span> cd alzaeem && python2 alzaeem.py</p>
-
-            <div class="divider"></div>
-
-            <!-- [+] قسم أساسيات الترمكس -->
-            <h3 style="color: var(--accent-color);">[+] أوامر وحزم أساسيات الترمكس الأساسية:</h3>
-            <p><span class="comment"># لتحديث حزم نظام ترمكس بالكامل ومنع الأخطاء:</span><br>
-            <span class="command">~ $</span> apt update && apt upgrade -y</p>
-
-            <p><span class="comment"># لتثبيت لغة بايثون والمستودع جيت:</span><br>
-            <span class="command">~ $</span> apt install git python2 -y</p>
-
-            <p><span class="comment"># إعطاء صلاحيات تخزين الملفات وإدارة الحزم:</span><br>
-            <span class="command">~ $</span> termux-setup-storage && pkg install php nano -y</p>
-
-            <div class="divider"></div>
-
-            <!-- [+] قسم مفاهيم الأمن السيبراني -->
-            <h3 style="color: var(--accent-color);">[+] مسارات وأساسيات الأمن السيبراني:</h3>
-            <ul>
-                <li><span class="command">Information Gathering</span> - جمع المعلومات الأساسية للهدف فحص المنافذ.</li>
-                <li><span class="command">Vulnerability Scanner</span> - فحص ثغرات الموقع البرمجية وقواعد البيانات.</li>
-                <li><span class="command">Exploitation Tools</span> - أدوات استغلال الثغرات وتأكيد الاختراق الأخلاقي.</li>
-            </ul>
-
-            <div class="footer-note">
-                <p>تنبيـه: ميزة تغيير الألوان (الليل والنهار) شغالة وتعمل بشكل ديناميكي وحركي مريح للعين.</p>
+            <!-- ================= قسم الأساسيات ================= -->
+            <div class="section-title">[+] أساسيات ترمكس وتجهيز البيئة</div>
+            <div class="grid" id="basicsGrid">
+                <div class="card">
+                    <p class="card-title">تحديث النظام وحزم المستودعات</p>
+                    <p class="card-desc">لتحديث ومزامنة مستودعات السيرفرات الرسمية ومنع أخطاء التثبيت.</p>
+                    <code class="code-block">pkg update && pkg upgrade -y</code>
+                </div>
+                <div class="card">
+                    <p class="card-title">صلاحية الوصول للذاكرة الداخلية</p>
+                    <p class="card-desc">يسمح لتطبيق ترمكس بقراءة وتعديل وحفظ الملفات على كرت الهاتف.</p>
+                    <code class="code-block">termux-setup-storage</code>
+                </div>
+                <div class="card">
+                    <p class="card-title">حزمة تحميل السكربتات (Git)</p>
+                    <p class="card-desc">الأداة المسؤولة عن سحب ونسخ أي مستودع أو أداة من موقع GitHub.</p>
+                    <code class="code-block">pkg install git -y</code>
+                </div>
+                <div class="card">
+                    <p class="card-title">بيئة تشغيل بايثون (Python)</p>
+                    <p class="card-desc">تثبيت لغات البرمجة الأساسية لتشغيل ملفات الأدوات ذات الامتداد .py</p>
+                    <code class="code-block">pkg install python python2 python3 -y</code>
+                </div>
+                <div class="card">
+                    <p class="card-title">حزمة الشبكات والسيرفرات (Curl/Php)</p>
+                    <p class="card-desc">تثبيت الأدوات المساعدة للاتصال بالروابط وتجهيز الخوادم المحلية.</p>
+                    <code class="code-block">pkg install php curl wget nano -y</code>
+                </div>
             </div>
-        </div>
-    </div>
 
-    <script>
-        // كود الجافا سكربت لتشغيل تبديل وضع الليل والنهار
-        const themeToggle = document.getElementById('themeToggle');
-        
-        // التحقق من الثيم المفضل المخزن سابقاً
-        const currentTheme = localStorage.getItem('theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', currentTheme);
-
-        themeToggle.addEventListener('click', () => {
-            let theme = document.documentElement.getAttribute('data-theme');
-            if (theme === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'light');
-                localStorage.setItem('theme', 'light');
-            } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            }
-        });
-    </script>
-</body>
-</html>
+            <!-- ================= قسم الأمن السيبراني والأدوات ================= -->
+            <div class="section-title">[+] موسوعة أدوات فحص واختبار الاختراق</div>
+            <div class="grid" id="toolsGrid">
+                <div class="card">
+                    <p class="card-title">PhoneSploit Pro</p>
+                    <p class="card-desc">أداة شهيرة لفحص واختبار اختراق أجهزة الأندرويد عن بعد عبر بروتوكول تصحيح الأخطاء ADB.</p>
+                    <code class="code-block">git clone https://github.com</code>
+                </div>
+                <div class="card">
+                    <p class="card-title">Al-Zaeem Tool</p>
+                    <p class="card-desc">سكربت عربي متكامل يجمع أكثر من 32 أداة مختلفة لجمع المعلومات وفحص الثغرات الأمنية.</p>
+                    <code class="code-block">git clone https://github.com</code>
+                </div>
+                <div class="card">
+                    <p class="card-title">Nmap Scanner</p>
+                    <p class="card-desc">الأداة الأقوى عالمياً لفحص الشبكات، كشف المنافذ المفتوحة (Ports) وتحديد الأنظمة والخدمات.</p>
+                    <code class="code-block">pkg install nmap -y</code>
+                </div>
+                <div class="card">
+                    <p class="card-title">Sqlmap</p>
+                    <p class="card-desc">سكربت متقدم لاكتشاف واستغلال ثغرات حقن SQL (SQL Injection) وسحب قواعد بيانات المواقع.</p>
+                    <code class="code-block">git clone https://github.com</code>
+                </div>
+                <div class="card">
+                    <p class="card-title">Metasploit Framework</p>
+                    <p class="card-desc">البيئة الضخمة والأشهر عالمياً لإنشاء الثغرات واستغلالها وفحص الأنظمة الأمنية المعقدة.</p>
+                    <code class="code-block">pkg install metasploit -y</code>
+                </div>
+                <div class="card">
+                    <p class="card-title">Red Hawk</p>
