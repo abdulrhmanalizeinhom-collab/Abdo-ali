@@ -3,53 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أكاديمية الأمن السيبراني وتيرمكس</title>
+    <title>الموسوعة الشاملة للأمن السيبراني واحتراف تيرمكس</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #121212; color: #ffffff; margin: 0; padding: 20px; line-height: 1.6; }
-        header { background-color: #1f1f1f; padding: 20px; text-align: center; border-bottom: 3px solid #00ffcc; }
-        h1 { color: #00ffcc; }
-        h2 { color: #ff007f; border-bottom: 1px solid #333; padding-bottom: 5px; }
-        .container { max-width: 900px; margin: auto; background: #1e1e1e; padding: 20px; border-radius: 8px; }
-        .section { margin-bottom: 40px; padding: 10px; }
-        ul { padding-right: 20px; }
-        li { margin-bottom: 10px; }
-        footer { text-align: center; margin-top: 50px; padding: 20px; background: #1f1f1f; border-top: 1px solid #333; }
-        a { color: #00ffcc; text-decoration: none; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0b0f19; color: #c9d1d9; margin: 0; padding: 0; line-height: 1.8; }
+        header { background: linear-gradient(135deg, #101524, #0b0f19); padding: 50px 20px; text-align: center; border-bottom: 3px solid #00ffcc; box-shadow: 0 4px 25px rgba(0,255,204,0.15); }
+        header h1 { color: #00ffcc; margin: 0; font-size: 2.5rem; text-shadow: 0 0 15px rgba(0,255,204,0.4); }
+        header p { color: #8b949e; margin-top: 10px; font-size: 1.2rem; }
+        .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+        .section { background-color: #121826; padding: 35px; border-radius: 12px; margin-bottom: 35px; border: 1px solid #21262d; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+        h2 { color: #ff007f; border-bottom: 2px solid #21262d; padding-bottom: 12px; margin-top: 0; font-size: 1.8rem; }
+        h3 { color: #58a6ff; margin-top: 30px; border-right: 4px solid #58a6ff; padding-right: 10px; }
+        p { color: #c9d1d9; font-size: 1.1rem; }
+        ul { padding-right: 25px; }
+        li { margin-bottom: 14px; font-size: 1.05rem; }
+        code { background-color: #0b0f19; color: #ff79c6; padding: 4px 8px; border-radius: 6px; font-family: 'Courier New', Courier, monospace; font-size: 0.95rem; border: 1px solid #30363d; display: inline-block; direction: ltr; }
+        .command-block { background-color: #0b0f19; padding: 18px; border-radius: 8px; border-right: 4px solid #00ffcc; margin: 18px 0; direction: ltr; text-align: left; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
+        .command-block code { background: none; border: none; color: #50fa7b; padding: 0; display: block; white-space: pre-wrap; font-size: 1rem; }
+        .tool-card { background: #161f30; padding: 20px; border-radius: 8px; border: 1px solid #30363d; margin: 15px 0; }
+        .tool-card strong { color: #ffb86c; font-size: 1.2rem; }
+        footer { text-align: center; padding: 50px 20px; background-color: #121826; border-top: 2px solid #21262d; margin-top: 60px; }
+        footer h3 { color: #00ffcc; margin-bottom: 20px; border: none; padding: 0; }
+        .social-btn { display: inline-block; background-color: #21262d; color: #ffffff; padding: 12px 25px; border-radius: 8px; text-decoration: none; margin: 10px; border: 1px solid #30363d; font-size: 1.05rem; transition: 0.3s; }
+        .social-btn:hover { background-color: #00ffcc; color: #0b0f19; font-weight: bold; box-shadow: 0 0 15px rgba(0,255,204,0.4); }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>🛡️ دليل الأمن السيبراني واحتراف تيرمكس 🚀</h1>
-        <p>موقعك التعليمي الشامل للبدء من الصفر إلى الاحتراف</p>
+        <h1>🛡️ الموسوعة العربية الشاملة للأمن السيبراني وتيرمكس 🚀</h1>
+        <p>دليلك العملي المتقدم لتعلم الحماية، اختبار الاختراق الأخلاقي، وإدارة أنظمة لينكس</p>
     </header>
 
     <div class="container">
+        
+        <!-- قسم الأمن السيبراني المتقدم -->
         <div class="section">
-            <h2>1. أساسيات الأمن السيبراني الكاملة</h2>
+            <h2>📘 أولاً: كورس الأمن السيبراني الشامل (Cybersecurity)</h2>
+            <p>الأمن السيبراني هو العلم المسؤول عن حماية البنية التحتية الرقمية. ينقسم اختبار الاختراق الأخلاقي (Ethical Hacking) إلى عدة مراحل أساسية يتبعها الخبراء لحماية الأنظمة:</p>
+            
+            <h3>🔍 مراحل اختبار الاختراق الخمسة:</h3>
             <ul>
-                <li><strong>المثلث الأمني (CIA Triad):</strong> السرية، السلامة، والتوافر.</li>
-                <li><strong>أنواع التهديدات:</strong> البرمجيات الخبيثة، التصيد الاحتيالي، وهجمات حجب الخدمة (DDoS).</li>
+                <li><strong>1. جمع المعلومات (Reconnaissance):</strong> أهم مرحلة، وتنقسم إلى جمع نشط وخامل لمعرفة كل شيء عن الهدف (أجهزة، إيميلات، ثغرات).</li>
+                <li><strong>2. الفحص والتحليل (Scanning):</strong> استخدام أدوات لفحص المنافذ المفتوحة (Ports) والخدمات النشطة للبحث عن ثغرة.</li>
+                <li><strong>3. استغلال الثغرات (Gaining Access):</strong> مرحلة الدخول إلى النظام باستخدام الثغرة المكتشفة وتطبيق الاختراق.</li>
+                <li><strong>4. تثبيت الاختراق (Maintaining Access):</strong> زرع وسائل خلفية (Backdoors) لضمان الدخول للنظام لاحقاً حتى لو تم قفله.</li>
+                <li><strong>5. مسح الآثار (Covering Tracks):</strong> حذف ملفات السجلات (Logs) لإخفاء أي دليل على عملية الفحص أو الدخول.</li>
+            </ul>
+
+            <h3>🛡️ دليلك العملي لتأمين حساباتك وأجهزتك:</h3>
+            <ul>
+                <li><strong>تفعيل المصادقة الثنائية (2FA):</strong> لا تعتمد على كلمة المرور فقط، فعل 2FA عبر تطبيقات مثل Google Authenticator وليس الرسائل النصية (SMS) لتجنب هجمات SIM Swapping.</li>
+                <li><strong>تجنب صفحات التصيد (Phishing):</strong> تأكد دائماً من رابط الموقع (URL) قبل إدخال بياناتك، فالهكر يستخدمون روابط شبيهة جداً مثل <code>faceb00k.com</code> بدلاً من الأصلي.</li>
+                <li><strong>التشفير (Encryption):</strong> تأكد من وجود بروتوكول <code>HTTPS</code> وعلامة القفل في المتصفح عند إدخال بيانات حساسة كبطاقات الائتمان.</li>
             </ul>
         </div>
 
+        <!-- قسم التيرمكس الاحترافي والأدوات -->
         <div class="section">
-            <h2>2. أساسيات تطبيق تيرمكس (Termux) كاملة</h2>
+            <h2>💻 ثانياً: كورس احتراف تيرمكس (Termux) والأدوات</h2>
+            <p>تيرمكس يمنحك قوة نظام لينكس بالكامل على هاتفك. إليك الأوامر المتقدمة وكيفية تشغيل أشهر أدوات اختبار الاختراق والحماية:</p>
+            
+            <h3>⚙️ كود التهيئة الشامل وتحديث السيرفرات:</h3>
+            <p>اكتب هذا الأمر المدمج لتحديث كل شيء وتثبيت المستودعات الإضافية ولغات البرمجة الأساسية دفعة واحدة:</p>
+            <div class="command-block">
+                <code>pkg update && pkg upgrade -y && pkg install git python python2 nodejs php nano wcalc openssh termux-api -y</code>
+            </div>
+
+            <h3>🛠️ شرح أشهر أدوات الأمن السيبراني وكيفية تثبيتها في تيرمكس:</h3>
+            
+            <div class="tool-card">
+                <strong>1. أداة Nmap (لفحص الشبكات والثغرات)</strong>
+                <p>تُستخدم لمعرفة الأجهزة المتصلة بالشبكة والمنافذ المفتوحة وثغرات السيرفرات.</p>
+                <p>أمر التثبيت والفحص:</p>
+                <div class="command-block">
+                    <code>pkg install nmap -y
+nmap scanme.nmap.org</code>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <strong>2. أداة Metasploit Framework (العملاق البرمجي للاستغلال)</strong>
+                <p>أضخم منصة تحتوي على آلاف الاستغلاليات الجاهزة لفحص حماية الأنظمة والسيرفرات.</p>
+                <p>أمر التثبيت (قد يستغرق بعض الوقت بناءً على سرعة الإنترنت):</p>
+                <div class="command-block">
+                    <code>pkg install metasploit -y
+msfconsole</code>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <strong>3. أداة Sqlmap (لفحص واختراق قواعد البيانات)</strong>
+                <p>أداة شهيرة جداً تستخدم لاكتشاف وفحص ثغرات حقن قواعد البيانات (SQL Injection) في المواقع المصابة.</p>
+                <p>أمر التثبيت والتشغيل:</p>
+                <div class="command-block">
+                    <code>git clone https://github.com
+cd sqlmap
+python3 sqlmap.py --help</code>
+                </div>
+            </div>
+
+            <h3>📁 أوامر متقدمة لإدارة الملفات وحماية بيئة عملك:</h3>
             <ul>
-                <li><strong>تحديث النظام:</strong> عبر أمر <code>pkg update && pkg upgrade</code>.</li>
-                <li><strong>أوامر التنقل:</strong> <code>ls</code> للعرض و <code>cd</code> للانتقال.</li>
+                <li><code>chmod +x [اسم_الأداة]</code> : إعطاء صلاحيات التشغيل التنفيذية لأي أداة تقوم بتحميلها.</li>
+                <li><code>pwd</code> : طباعة المسار الحالي بالكامل لتعرف في أي مجلد تقف الآن داخل النظام.</li>
+                <li><code>htop</code> : أداة رائعة لمراقبة معالج ورامات الهاتف والعمليات الشغالة في الخلفية (تُثبت عبر <code>pkg install htop</code>).</li>
             </ul>
         </div>
 
+        <!-- قسم من نحن -->
         <div class="section">
-            <h2>👥 من نحن</h2>
-            <p>منصة تعليمية عربية لتبسيط مفاهيم الأمن السيبراني وأدوات اللينكس للشباب العربي.</p>
+            <h2>👥 من نحن وما هي أهدافنا؟</h2>
+            <p>نحن منصة عربية رائدة متخصصة في التوعية الأمنية الرقمية. نهدف إلى سد الفجوة التعليمية في مجال الأمن السيبراني وأنظمة لينكس للشباب العربي. نقدم هذا المحتوى لأغراض تعليمية وأخلاقية فقط لحمايتك وحماية عائلتك ومجتمعك من الهجمات الرقمية المتطورة.</p>
         </div>
+
     </div>
 
+    <!-- قسم الاتصال المطور -->
     <footer>
-        <h3>📞 اتصل بنا</h3>
-        <p>حساب التليجرام: <a href="https://t.me" target="_blank">@your_username</a></p>
+        <h3>📞 تواصل معنا مباشرة للاستفسارات والدعم</h3>
+        <p>إذا واجهتك أي مشكلة في تطبيق الأوامر أو تريد تعلم المزيد، تواصل معنا فوراً عبر الحسابات الرسمية المباشرة:</p>
+        <a href="https://t.me" class="social-btn" target="_blank">💬 تليجرام الإدارة الرسمي</a>
+        <a href="https://facebook.com" class="social-btn" target="_blank">🌐 صفحة الفيسبوك الرسمية</a>
+        <p style="color: #8b949e; font-size: 0.95rem; margin-top: 35px;">© 2026 جميع الحقوق محفوظة لأكاديمية الأمن السيبراني العربي والتحليل الأمني.</p>
     </footer>
 
 </body>
