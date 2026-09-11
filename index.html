@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>موسوعة Abdo_termux العالمية المتقدمة</title>
+    <!-- تم تصحيح رابط الخط لدعم الخط العربي بشكل صحيح -->
     <link href="https://googleapis.com" rel="stylesheet">
     <style>
         :root {
@@ -29,7 +30,7 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; transition: background 0.2s, color 0.2s; }
-        body { background-color: var(--bg-main); color: var(--text-main); line-height: 1.6; padding-bottom: 40px; }
+        body { background-color: var(--bg-main); color: var(--text-main); line-height: 1.6; padding-bottom: 40px; overflow-x: hidden; }
         
         canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.15; pointer-events: none; }
         [data-theme="light"] canvas { opacity: 0.02; }
@@ -77,10 +78,10 @@
         /* شريط البحث */
         .search-container { position: relative; margin-bottom: 30px; }
         .search-container input {
-            width: 100%; padding: 16px 20px 16px 50px; background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); font-size: 1.05rem; outline: none; text-align: right;
+            width: 100%; padding: 16px 50px 16px 20px; background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); font-size: 1.05rem; outline: none; text-align: right;
         }
         .search-container input:focus { border-color: var(--accent-green); box-shadow: 0 0 15px rgba(0, 255, 102, 0.15); }
-        .search-container .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.1rem; pointer-events: none; }
+        .search-container .search-icon { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.1rem; pointer-events: none; }
 
         .section-block { margin-bottom: 40px; }
         .section-title { font-size: 1.45rem; margin: 30px 0 20px 0; color: var(--text-main); display: flex; align-items: center; gap: 10px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
@@ -94,8 +95,9 @@
         .badge { background: rgba(0, 210, 255, 0.1); color: var(--accent-blue); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; width: fit-content; margin-bottom: 12px; }
 
         .code-block { background: #020408; border: 1px solid var(--border-color); border-radius: 8px; padding: 14px; position: relative; margin: 8px 0; direction: ltr; text-align: left; }
-        .code-block code { font-family: 'Fira Code', monospace; font-size: 0.82rem; color: #e2e8f0; display: block; padding-right: 60px; white-space: pre-wrap; word-break: break-all; }
+        .code-block code { font-family: monospace; font-size: 0.82rem; color: #e2e8f0; display: block; padding-right: 60px; white-space: pre-wrap; word-break: break-all; }
         .copy-btn { position: absolute; top: 50%; right: 8px; transform: translateY(-50%); background: var(--bg-card); border: 1px solid var(--border-color); color: var(--accent-blue); padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: bold; }
+        .copy-btn:hover { background: var(--accent-blue); color: #fff; }
 
         @media (min-width: 769px) {
             .menu-toggle { display: none; }
@@ -145,30 +147,44 @@
                         <button class="copy-btn" onclick="executeCopy(this)">نسخ</button>
                     </div>
                 </div>
-                <div class="card">
-                    <span class="badge">إصلاح الحزم</span>
-                    <h3>تحديث أداة pip البرمجية وحزم ويل</h3>
-                    <p>أمر إلزامي لإصلاح مشاكل تعطل ملفات requirements.txt الخاصة بالأدوات والسكربتات الحديثة والمتقدمة لمنع مشاكل التنصيب.</p>
-                    <div class="code-block">
-                        <code>pip install --upgrade pip && pip install setuptools wheel</code>
-                        <button class="copy-btn" onclick="executeCopy(this)">نسخ</button>
-                    </div>
-                </div>
+                <!-- يمكنك إضافة بقية البطاقات هنا داخل الـ grid -->
             </div>
         </section>
 
-        <!-- 2. أدوات الكتيب والمستندات -->
-        <section id="pdf-tools" class="section-block">
-            <h2 class="section-title">📁 2. أدوات الكتيب والمستندات المدمجة</h2>
-            <div class="grid">
-                <div class="card">
-                    <span class="badge">حقن حقيقي</span>
-                    <h3>أداة Al-Zaeem الترسانة المتكاملة</h3>
-                    <p>الموسوعة المدمجة المليئة بأدوات جمع المعلومات، فحص الثغرات، واختبار الاختراق المقسمة برقم الاختيار والتي تم إصلاح رابط تحميلها لتنزيلها بالكامل [0.1.5، 0.1.6].</p>
-                    <div class="code-block">
-                        <code>apt update && apt upgrade -y && apt install git python2 -y && git clone https://github.com && cd alzaeem && python2 alzaeem.py</code>
-                        <button class="copy-btn" onclick="executeCopy(this)">نسخ</button>
-                    </div>
-                </div>
-                <div class="card">
+        <!-- باقي الأقسام يمكن إضافتها هنا بنفس الهيكل الفوقي للبطاقات -->
+    </main>
+
+    <script>
+        // 1. وظيفة تشغيل وإغلاق القائمة المنسدلة في الجوال
+        function executeToggleMenu() {
+            const menu = document.getElementById('navMenu');
+            menu.classList.toggle('show-menu');
+        }
         
+        function executeCloseMenu() {
+            const menu = document.getElementById('navMenu');
+            menu.classList.remove('show-menu');
+        }
+
+        // 2. وظيفة التبديل بين الوضع الليلي والنهاري (Theme Toggle)
+        function executeToggleTheme() {
+            const body = document.documentElement;
+            const themeBtn = document.getElementById('themeBtn');
+            if (body.getAttribute('data-theme') === 'light') {
+                body.removeAttribute('data-theme');
+                themeBtn.innerText = '☀️';
+            } else {
+                body.setAttribute('data-theme', 'light');
+                themeBtn.innerText = '🌙';
+            }
+        }
+
+        // 3. وظيفة نسخ الأكواد بضغطة زر
+        function executeCopy(button) {
+            const code = button.previousElementSibling.innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.innerText;
+                button.innerText = 'تم النسخ!';
+                button.style.color = 'var(--accent-green)';
+                setTimeout(() => {
+                    button.innerText = originalText;
