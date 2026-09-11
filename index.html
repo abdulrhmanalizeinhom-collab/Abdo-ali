@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الموسوعة المتقدمة للأمن السيبراني وتيرمكس</title>
+    <title>ويكي تيرمكس العربي الشامل | Termux Wiki Arabic Pro</title>
     <link href="https://googleapis.com" rel="stylesheet">
     <link rel="stylesheet" href="https://cloudflare.com">
     <style>
         :root {
-            --bg-main: #060913;
-            --bg-card: #0d1527;
-            --accent-green: #00ff66;
+            --bg-main: #050811;
+            --bg-sidebar: #090f20;
+            --bg-card: #0d152b;
+            --accent-neon: #00ff66;
             --accent-blue: #00d2ff;
             --accent-red: #ff3e3e;
             --text-main: #f1f5f9;
@@ -18,272 +19,166 @@
             --border-color: #1e293b;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Tajawal', sans-serif;
-            scroll-behavior: smooth;
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-main); display: flex; min-height: 100vh; }
+
+        /* شريط التنقل الجانبي */
+        .sidebar {
+            width: 290px;
+            background-color: var(--bg-sidebar);
+            border-left: 1px solid var(--border-color);
+            padding: 30px 15px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            right: 0; top: 0;
+            overflow-y: auto;
+            z-index: 1000;
         }
 
-        body {
-            background-color: var(--bg-main);
+        .sidebar h2 { font-size: 1.3rem; color: var(--accent-neon); margin-bottom: 25px; display: flex; align-items: center; gap: 10px; text-shadow: 0 0 10px rgba(0,255,102,0.2); }
+        .sidebar-menu { list-style: none; }
+        .sidebar-menu li { margin-bottom: 8px; }
+        .sidebar-menu a {
             color: var(--text-main);
-            line-height: 1.8;
-            padding-bottom: 60px;
-        }
-
-        header {
-            background: linear-gradient(135deg, #0d1527 0%, #060913 100%);
-            border-bottom: 2px solid var(--border-color);
-            padding: 80px 20px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(circle, rgba(0,255,102,0.05) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            color: var(--text-main);
-            margin-bottom: 15px;
-            text-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
-        }
-
-        header p {
-            color: var(--accent-blue);
-            font-size: 1.2rem;
-            font-weight: 500;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            margin-top: 50px;
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--border-color);
-            color: var(--text-main);
+            text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            transition: 0.2s ease;
+            font-size: 0.9rem;
+        }
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(0, 255, 102, 0.08);
+            color: var(--accent-neon);
+            padding-right: 18px;
         }
 
-        .section-title i {
-            color: var(--accent-green);
+        /* المحتوى الرئيسي */
+        .main-content {
+            margin-right: 290px;
+            flex: 1;
+            padding: 40px;
+            max-width: 1300px;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-            margin-top: 20px;
+        /* شريط البحث */
+        .search-container { position: relative; margin-bottom: 40px; }
+        .search-container input {
+            width: 100%;
+            padding: 16px 50px 16px 20px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1.1rem;
+            outline: none;
+            transition: 0.3s;
         }
+        .search-container input:focus { border-color: var(--accent-blue); box-shadow: 0 0 15px rgba(0, 210, 255, 0.15); }
+        .search-container i { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.2rem; }
 
+        .section-title { font-size: 1.7rem; margin: 50px 0 20px 0; color: var(--text-main); display: flex; align-items: center; gap: 10px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        .section-title span { color: var(--accent-blue); font-size: 1.1rem; margin-right: auto; }
+
+        /* نظام الشبكة والبطاقات */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 25px; }
         .card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 25px;
             transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-green);
-            box-shadow: 0 5px 20px rgba(0, 255, 102, 0.1);
-        }
-
-        .card.wifi-card:hover {
-            border-color: var(--accent-blue);
-            box-shadow: 0 5px 20px rgba(0, 210, 255, 0.1);
-        }
-
-        .card h3 {
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-            color: var(--text-main);
             display: flex;
-            align-items: center;
-            gap: 10px;
+            flex-direction: column;
+            justify-content: space-between;
         }
+        .card:hover { transform: translateY(-5px); border-color: var(--accent-neon); box-shadow: 0 5px 20px rgba(0, 255, 102, 0.05); }
+        .card h3 { font-size: 1.2rem; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .card p { color: #cbd5e1; font-size: 0.9rem; margin-bottom: 15px; text-align: justify; line-height: 1.6; }
+        
+        .badge { background: rgba(0, 210, 255, 0.1); color: var(--accent-blue); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; white-space: nowrap; }
 
-        .card p {
-            color: #cbd5e1;
-            font-size: 0.95rem;
-            margin-bottom: 15px;
-        }
+        /* الأكواد والنسخ */
+        .code-block { background: #03050a; border: 1px solid var(--border-color); border-radius: 8px; padding: 14px; position: relative; margin: 10px 0; direction: ltr; text-align: left; }
+        .code-block code { font-family: 'Fira Code', monospace; font-size: 0.85rem; color: #e2e8f0; display: block; padding-right: 55px; white-space: pre-wrap; word-break: break-all; }
+        .copy-btn { position: absolute; top: 50%; right: 10px; transform: translateY(-50%); background: #0d152b; border: 1px solid var(--border-color); color: var(--accent-blue); padding: 5px 10px; border-radius: 6px; cursor: pointer; transition: 0.2s; font-size: 0.8rem; }
+        .copy-btn:hover { background: var(--accent-blue); color: #000; }
 
-        .badge {
-            background: rgba(0, 255, 102, 0.1);
-            color: var(--accent-green);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-
-        .badge.wifi {
-            background: rgba(0, 210, 255, 0.1);
-            color: var(--accent-blue);
-        }
-
-        .code-block {
-            background: #03050a;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 15px;
-            position: relative;
-            margin: 15px 0;
-            direction: ltr;
-            text-align: left;
-        }
-
-        .code-block code {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.9rem;
-            color: #e2e8f0;
-            display: block;
-            padding-right: 50px;
-            white-space: pre-wrap;
-            word-break: break-all;
-        }
-
-        .copy-btn {
-            position: absolute;
-            top: 50%;
-            right: 12px;
-            transform: translateY(-50%);
-            background: #0d1527;
-            border: 1px solid var(--border-color);
-            color: var(--accent-blue);
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 0.85rem;
-        }
-
-        .copy-btn:hover {
-            background: var(--accent-blue);
-            color: #000;
-        }
-
-        /* أداة فحص كلمة المرور التفاعلية */
-        .checker-container {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 30px;
-            margin-top: 40px;
-        }
-
-        .checker-container input {
-            width: 100%;
-            padding: 12px;
-            background: #03050a;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1rem;
-            margin-top: 15px;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        .checker-container input:focus {
-            border-color: var(--accent-green);
-        }
-
-        .strength-bar {
-            height: 6px;
-            width: 100%;
-            background: #1e293b;
-            margin-top: 15px;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .strength-fill {
-            height: 100%;
-            width: 0%;
-            transition: 0.4s ease;
-        }
-
-        .strength-text {
-            font-size: 0.9rem;
-            margin-top: 10px;
-            font-weight: bold;
+        @media (max-width: 992px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: relative; border-left: none; border-bottom: 1px solid var(--border-color); padding: 20px; }
+            .main-content { margin-right: 0; padding: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>🛡️ الموسوعة السيبرانية الشاملة احتراف تيرمكس</h1>
-        <p>المنصة المتقدمة لاختبار الاختراق الأخلاقي وفحص الشبكات والأنظمة</p>
-    </header>
+    <!-- القائمة الجانبية للموسوعة الكاملة -->
+    <nav class="sidebar">
+        <h2><i class="fa-solid fa-skull-crossbones"></i> ويكي تيرمكس Pro</h2>
+        <ul class="sidebar-menu">
+            <li><a href="#basics" class="active"><i class="fa-solid fa-terminal"></i> 1. بيئة العمل والأساسيات</a></li>
+            <li><a href="#recon"><i class="fa-solid fa-spider"></i> 2. الاستخبارات وجمع المعلومات</a></li>
+            <li><a href="#scanning"><i class="fa-solid fa-eye"></i> 3. فحص وتحليل الثغرات</a></li>
+            <li><a href="#exploitation"><i class="fa-solid fa-biohazard"></i> 4. استغلال الأنظمة والسيرفرات</a></li>
+            <li><a href="#phishing"><i class="fa-solid fa-hook"></i> 5. الهندسة الاجتماعية والتصيد</a></li>
+            <li><a href="#wifi"><i class="fa-solid fa-wifi"></i> 6. اختبار اختراق الوايرلس</a></li>
+            <li><a href="#ddos"><i class="fa-solid fa-burst"></i> 7. هجمات حجب الخدمة (DoS)</a></li>
+            <li><a href="#passattacks"><i class="fa-solid fa-unlock-keyhole"></i> 8. كسر كلمات المرور</a></li>
+        </ul>
+    </nav>
 
-    <div class="container">
-
-        <!-- قسم أدوات الـ PDF -->
-        <h2 class="section-title"><i class="fa-solid fa-file-pdf"></i> أدوات مدمجة من ملف الـ PDF</h2>
-        <div class="grid">
-            
-            <!-- أداة PhoneSploit Pro -->
-            <div class="card">
-                <h3><i class="fa-solid fa-mobile-screen-button" style="color: var(--accent-green);"></i> PhoneSploit Pro <span class="badge">Android Testing</span></h3>
-                <p>أداة متقدمة جداً تُستخدم لفحص واختبار اختراق أجهزة الأندرويد عن بُعد والتحكم بها عبر بروتوكول تصحيح الأخطاء (ADB). تتيح سحب الملفات، الكاميرا البث المباشر، والتحكم بالنظام بالكامل.</p>
-                <div class="code-block">
-                    <code>git clone https://github.com && Asking_Prompt=1</code>
-                    <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> نسخ</button>
-                </div>
-                <div class="code-block">
-                    <code>cd PhoneSploit-Pro && pip install -r requirements.txt && python phonesploitpro.py</code>
-                    <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> نسخ</button>
-                </div>
-            </div>
-
-            <!-- أداة Al-Zaeem -->
-            <div class="card">
-                <h3><i class="fa-solid fa-terminal" style="color: var(--accent-green);"></i> أداة Al-Zaeem الشاملة <span class="badge">Multi-Tool</span></h3>
-                <p>سكربت مدمج يحتوي على حزمة ضخمة من أدوات الهكر الأخلاقي المقسمة بشكل منظم مثل: أدوات جمع المعلومات (Information Gathering)، فحص الثغرات، واختراق قواعد البيانات مثل Sqlmap.</p>
-                <div class="code-block">
-                    <code>apt update && apt upgrade -y && apt install git python2 -y && git clone https://github.com</code>
-                    <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> نسخ</button>
-                </div>
-                <div class="code-block">
-                    <code>cd alzaeem && python2 alzaeem.py</code>
-                    <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> نسخ</button>
-                </div>
-            </div>
-
+    <!-- المحتوى الرئيسي والمحرك الفوري -->
+    <main class="main-content">
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="wikiSearch" placeholder="اكتب اسم أي أداة (مثال: sqlmap, metasploit, nmap) للوصول الفوري الحركي..." onkeyup="searchWiki()">
         </div>
 
-        <!-- قسم أدوات الـ Wi-Fi الجديد -->
-        <h2 class="section-title"><i class="fa-solid fa-wifi"></i> قسم فحص واختبار اختراق شبكات الـ Wi-Fi</h2>
-        <div class="grid">
-
-            <!-- أداة Wifite -->
-            <div class="card wifi-card">
-                <h3><i class="fa-solid fa-satellite-dish" style="color: var(--accent-blue);"></i> أداة Wifite2 <span class="badge wifi">Wi-Fi Automated</span></h3>
-                <p>الأداة الأقوى والأسهل للفحص التلقائي لشبكات اللاسلكي. تقوم بمهاجمة الشبكات المشفرة بـ WEP/WPA/WPA2 وتدعم جلب كروت البث المتوافقة مع وضع Monitor Mode أوتوماتيكياً.</p>
-                <div class="code-block">
-                    <code>pkg install python git iw wireless-tools tshark -y && git clone https://github.com</code>
-                    <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> نسخ</button>
+        <!-- 1. بيئة العمل والأساسيات -->
+        <section id="basics">
+            <h2 class="section-title"><i class="fa-solid fa-terminal"></i> 1. بيئة العمل وتحديث السيرفرات <span>(Environment Setup)</span></h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>التحديث الجذري وتنصيب البيئات الأساسية <span class="badge">التهيئة الصفرية</span></h3>
+                    <p>أمر إلزامي موحد لترقية حزم النظام الأساسية وتجهيز لغات البرمجة (Python, PHP, Node.js) لمنع مشاكل الاعتماديات المفقودة أثناء تثبيت الأدوات.</p>
+                    <div class="code-block">
+                        <code>pkg update && pkg upgrade -y && pkg install git python python2 python3 nodejs php nano wget curl -y</code>
+                        <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> نسخ</button>
+                    </div>
                 </div>
-                <div class="code-block">
-                    <code>cd wifite2 && sudo python3 Wifite.py</code>
+                <div class="card">
+                    <h3>صلاحيات الوصول إلى ذاكرة تخزين الهاتف <span class="badge">Termux Storage</span></h3>
+                    <p>أمر أساسي لربط مساحة تخزين تيرمكس الداخلية بملفات الهاتف لتسهيل نقل الـ Payloads، التقارير، والملفات المخترقة.</p>
+                    <div class="code-block">
+                        <code>termux-setup-storage</code>
+                        <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> نسخ</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. الاستخبارات وجمع المعلومات -->
+        <section id="recon">
+            <h2 class="section-title"><i class="fa-solid fa-spider"></i> 2. الاستخبارات وجمع المعلومات <span>(Information Gathering)</span></h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>أداة Al-Zaeem الشاملة <span class="badge">OSINT Packet</span></h3>
+                    <p>الحزمة البرمجية المتكاملة لجمع معلومات الأهداف الرقمية وفحص الحسابات بشكل مدمج وسريع وبواجهة تفاعلية مرنة [0.1.5، 0.1.6].</p>
+                    <div class="code-block">
+                        <code>git clone https://github.com && cd alzaeem && python2 alzaeem.py</code>
+                        <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> نسخ</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>أداة Nmap الذكية <span class="badge">Network Recon</span></h3>
+                    <p>العملاق العالمي لتحديد الأجهزة النشطة داخل الشبكة ومعرفة الخدمات النشطة وإصدارات أنظمة التشغيل خلف البورتات المفتوحة.</p>
+                    <div class="code-block">
+                        <code>pkg install nmap -y && nmap --script vuln [Target_IP]</code>
+                        <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> نسخ</button>
+                    </div>
+                </div>
