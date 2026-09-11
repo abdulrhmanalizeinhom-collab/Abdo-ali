@@ -1,264 +1,49 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wiki Termux - abdo_termux</title>
+    <title>مثال تفاعلي بسيط</title>
+    
+    <!-- هنا نكتب كود الـ CSS لتصميم الصفحة -->
     <style>
-        /* إعدادات المتغيرات لوضع الليل والنهار */
-        :root {
-            --bg-color: #0c0f12;
-            --terminal-bg: #111418;
-            --text-color: #00ff66;
-            --text-secondary: #8892b0;
-            --border-color: #1f242c;
-            --accent-color: #ff0055;
-            --cmd-color: #00bfff;
-            --card-bg: #161b22;
-        }
-
-        [data-theme="light"] {
-            --bg-color: #f0f2f5;
-            --terminal-bg: #ffffff;
-            --text-color: #1a1a1a;
-            --text-secondary: #555555;
-            --border-color: #d0d7de;
-            --accent-color: #d11141;
-            --cmd-color: #0066cc;
-            --card-bg: #f6f8fa;
-        }
-
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Courier New', Courier, monospace;
-            margin: 0;
-            padding: 15px;
-            transition: all 0.3s ease;
-        }
-
-        /* الهيدر العلوي */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1000px;
-            margin: 0 auto 15px auto;
-            background: var(--terminal-bg);
-            padding: 12px 20px;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        .user-tag {
-            color: var(--accent-color);
-            font-weight: bold;
-            font-size: 18px;
-            letter-spacing: 1px;
-        }
-
-        .theme-btn {
-            background: var(--text-color);
-            color: var(--bg-color);
-            border: none;
-            padding: 8px 16px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 5px;
-            font-family: inherit;
-            transition: all 0.2s;
-        }
-
-        /* الحاوية الرئيسية للموقع */
-        .wiki-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background-color: var(--terminal-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            overflow: hidden;
-        }
-
-        .terminal-header {
-            background-color: var(--border-color);
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            direction: ltr;
-        }
-
-        .buttons { display: flex; gap: 8px; }
-        .btn { width: 12px; height: 12px; border-radius: 50%; }
-        .btn-red { background-color: #ff5f56; }
-        .btn-yellow { background-color: #ffbd2e; }
-        .btn-green { background-color: #27c93f; }
-        .title { margin: 0 auto; color: var(--text-secondary); font-size: 14px; }
-
-        .terminal-body {
-            padding: 20px;
-        }
-
-        /* لوحة البحث الفورية */
-        .search-box {
-            width: 100%;
-            padding: 12px;
-            background: var(--card-bg);
-            border: 2px solid var(--border-color);
-            color: var(--text-color);
-            font-family: inherit;
-            font-size: 16px;
-            border-radius: 6px;
-            box-sizing: border-box;
-            margin-bottom: 25px;
-        }
-        .search-box::placeholder { color: var(--text-secondary); }
-
-        /* تقسيم الأقسام */
-        .section-title {
-            color: var(--accent-color);
-            border-bottom: 2px dashed var(--border-color);
-            padding-bottom: 8px;
-            margin-top: 30px;
-            font-size: 20px;
-        }
-
-        /* نظام الشبكة الذكي للأدوات والأساسيات */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 15px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,200,0,0.1);
-        }
-
-        .card-title {
-            font-weight: bold;
-            color: var(--cmd-color);
-            margin-top: 0;
-            margin-bottom: 8px;
-            font-size: 16px;
-        }
-
-        .card-desc {
-            color: var(--text-secondary);
-            font-size: 13px;
-            margin: 0 0 10px 0;
-            line-height: 1.4;
-        }
-
-        .code-block {
-            background: rgba(0,0,0,0.2);
-            padding: 6px;
-            border-radius: 4px;
-            font-size: 12px;
-            color: var(--text-color);
-            word-break: break-all;
-            display: block;
-            border: 1px solid var(--border-color);
-        }
-
-        .footer-note {
-            margin-top: 40px;
-            border-top: 1px dashed var(--border-color);
-            padding-top: 15px;
-            font-size: 13px;
-            color: var(--text-secondary);
+            font-family: Arial, sans-serif;
             text-align: center;
+            margin-top: 50px;
+            background-color: #f4f4f4;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
 
-    <!-- الهيدر العلوي الحامل لإسمك وزر التحكم -->
-    <div class="header">
-        <div class="user-tag">👑 wiki@abdo_termux</div>
-        <button class="theme-btn" id="themeToggle">تبديل الوضع 🌓</button>
-    </div>
+    <!-- هنا نكتب كود الـ HTML لبناء العناصر -->
+    <h1>مرحباً بك في عالم تطوير الويب!</h1>
+    <p>اضغط على الزر بالأسفل لتغيير لون الخلفية.</p>
+    <button class="btn" id="colorBtn">غيّر اللون</button>
 
-    <div class="wiki-container">
-        <div class="terminal-header">
-            <div class="buttons">
-                <div class="btn btn-red"></div>
-                <div class="btn btn-yellow"></div>
-                <div class="btn btn-green"></div>
-            </div>
-            <div class="title">abdo_termux@wiki-database:~</div>
-        </div>
+    <!-- هنا نكتب كود الـ JavaScript لإضافة التفاعل -->
+    <script>
+        const button = document.getElementById('colorBtn');
+        
+        button.addEventListener('click', function() {
+            // توليد لون عشوائي
+            const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+            document.body.style.backgroundColor = randomColor;
+        });
+    </script>
 
-        <div class="terminal-body">
-            <!-- شريط بحث حقيقي يقوم بفلترة الأدوات فوراً -->
-            <input type="text" id="searchInput" class="search-box" placeholder="🔍 اكتب اسم الأداة أو الأمر للبحث السريع التلقائي...">
-
-            <!-- ================= قسم الأساسيات ================= -->
-            <div class="section-title">[+] أساسيات ترمكس وتجهيز البيئة</div>
-            <div class="grid" id="basicsGrid">
-                <div class="card">
-                    <p class="card-title">تحديث النظام وحزم المستودعات</p>
-                    <p class="card-desc">لتحديث ومزامنة مستودعات السيرفرات الرسمية ومنع أخطاء التثبيت.</p>
-                    <code class="code-block">pkg update && pkg upgrade -y</code>
-                </div>
-                <div class="card">
-                    <p class="card-title">صلاحية الوصول للذاكرة الداخلية</p>
-                    <p class="card-desc">يسمح لتطبيق ترمكس بقراءة وتعديل وحفظ الملفات على كرت الهاتف.</p>
-                    <code class="code-block">termux-setup-storage</code>
-                </div>
-                <div class="card">
-                    <p class="card-title">حزمة تحميل السكربتات (Git)</p>
-                    <p class="card-desc">الأداة المسؤولة عن سحب ونسخ أي مستودع أو أداة من موقع GitHub.</p>
-                    <code class="code-block">pkg install git -y</code>
-                </div>
-                <div class="card">
-                    <p class="card-title">بيئة تشغيل بايثون (Python)</p>
-                    <p class="card-desc">تثبيت لغات البرمجة الأساسية لتشغيل ملفات الأدوات ذات الامتداد .py</p>
-                    <code class="code-block">pkg install python python2 python3 -y</code>
-                </div>
-                <div class="card">
-                    <p class="card-title">حزمة الشبكات والسيرفرات (Curl/Php)</p>
-                    <p class="card-desc">تثبيت الأدوات المساعدة للاتصال بالروابط وتجهيز الخوادم المحلية.</p>
-                    <code class="code-block">pkg install php curl wget nano -y</code>
-                </div>
-            </div>
-
-            <!-- ================= قسم الأمن السيبراني والأدوات ================= -->
-            <div class="section-title">[+] موسوعة أدوات فحص واختبار الاختراق</div>
-            <div class="grid" id="toolsGrid">
-                <div class="card">
-                    <p class="card-title">PhoneSploit Pro</p>
-                    <p class="card-desc">أداة شهيرة لفحص واختبار اختراق أجهزة الأندرويد عن بعد عبر بروتوكول تصحيح الأخطاء ADB.</p>
-                    <code class="code-block">git clone https://github.com</code>
-                </div>
-                <div class="card">
-                    <p class="card-title">Al-Zaeem Tool</p>
-                    <p class="card-desc">سكربت عربي متكامل يجمع أكثر من 32 أداة مختلفة لجمع المعلومات وفحص الثغرات الأمنية.</p>
-                    <code class="code-block">git clone https://github.com</code>
-                </div>
-                <div class="card">
-                    <p class="card-title">Nmap Scanner</p>
-                    <p class="card-desc">الأداة الأقوى عالمياً لفحص الشبكات، كشف المنافذ المفتوحة (Ports) وتحديد الأنظمة والخدمات.</p>
-                    <code class="code-block">pkg install nmap -y</code>
-                </div>
-                <div class="card">
-                    <p class="card-title">Sqlmap</p>
-                    <p class="card-desc">سكربت متقدم لاكتشاف واستغلال ثغرات حقن SQL (SQL Injection) وسحب قواعد بيانات المواقع.</p>
-                    <code class="code-block">git clone https://github.com</code>
-                </div>
-                <div class="card">
-                    <p class="card-title">Metasploit Framework</p>
-                    <p class="card-desc">البيئة الضخمة والأشهر عالمياً لإنشاء الثغرات واستغلالها وفحص الأنظمة الأمنية المعقدة.</p>
-                    <code class="code-block">pkg install metasploit -y</code>
-                </div>
-                <div class="card">
-                    <p class="card-title">Red Hawk</p>
+</body>
+</html>
