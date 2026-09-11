@@ -28,13 +28,13 @@
             --border-color: #cbd5e1;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; transition: background 0.25s, border-color 0.25s; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; transition: background 0.2s, color 0.2s; }
         body { background-color: var(--bg-main); color: var(--text-main); line-height: 1.6; padding-bottom: 40px; }
         
         canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.15; pointer-events: none; }
         [data-theme="light"] canvas { opacity: 0.02; }
 
-        /* شريط التنقل العلوي المطور */
+        /* شريط التنقل */
         nav {
             background-color: var(--bg-nav);
             border-bottom: 1px solid var(--border-color);
@@ -53,18 +53,20 @@
         
         .theme-toggle, .menu-toggle {
             background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main);
-            padding: 10px 14px; border-radius: 8px; cursor: pointer; font-size: 1.1rem; user-select: none;
+            padding: 10px 14px; border-radius: 8px; cursor: pointer; font-size: 1.1rem;
         }
-        .theme-toggle:hover, .menu-toggle:hover { border-color: var(--accent-green); color: var(--accent-green); }
 
-        /* القائمة المنسدلة البرمجية الفعالة */
+        /* القائمة المنسدلة */
         .nav-menu {
             position: absolute; top: 100%; right: 0; left: 0;
             background-color: var(--bg-nav); border-bottom: 1px solid var(--border-color);
             display: none; flex-direction: column; list-style: none; padding: 10px 0;
             box-shadow: 0 8px 16px rgba(0,0,0,0.3);
         }
-        .nav-menu.open { display: flex; }
+        
+        /* كلاس إجباري لعرض القائمة */
+        .nav-menu.show-menu { display: flex !important; }
+        
         .nav-menu li a {
             color: var(--text-main); text-decoration: none; padding: 14px 20px; display: block; font-weight: 500; border-bottom: 1px solid rgba(255,255,255,0.02);
         }
@@ -72,7 +74,7 @@
 
         .container { max-width: 1200px; margin: 25px auto; padding: 0 20px; }
         
-        /* شريط البحث الاحترافي الفعال */
+        /* شريط البحث */
         .search-container { position: relative; margin-bottom: 30px; }
         .search-container input {
             width: 100%; padding: 16px 20px 16px 50px; background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); font-size: 1.05rem; outline: none; text-align: right;
@@ -94,7 +96,6 @@
         .code-block { background: #020408; border: 1px solid var(--border-color); border-radius: 8px; padding: 14px; position: relative; margin: 8px 0; direction: ltr; text-align: left; }
         .code-block code { font-family: 'Fira Code', monospace; font-size: 0.82rem; color: #e2e8f0; display: block; padding-right: 60px; white-space: pre-wrap; word-break: break-all; }
         .copy-btn { position: absolute; top: 50%; right: 8px; transform: translateY(-50%); background: var(--bg-card); border: 1px solid var(--border-color); color: var(--accent-blue); padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: bold; }
-        .copy-btn:hover { background: var(--accent-green); color: #000; }
 
         @media (min-width: 769px) {
             .menu-toggle { display: none; }
@@ -110,25 +111,25 @@
     <nav>
         <h1>⚡ Abdo_termux</h1>
         <div class="nav-controls">
-            <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">☀️</button>
-            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <button class="theme-toggle" id="themeBtn" onclick="executeToggleTheme()">☀️</button>
+            <button class="menu-toggle" onclick="executeToggleMenu()">☰</button>
         </div>
         <ul class="nav-menu" id="navMenu">
-            <li><a href="#setup" onclick="closeMenu()">1. التهيئة والمشاكل</a></li>
-            <li><a href="#pdf-tools" onclick="closeMenu()">2. أدوات المستندات</a></li>
-            <li><a href="#recon" onclick="closeMenu()">3. الاستخبارات والجمع</a></li>
-            <li><a href="#scanning" onclick="closeMenu()">4. فحص الثغرات</a></li>
-            <li><a href="#exploit" onclick="closeMenu()">5. اختراق السيرفرات</a></li>
-            <li><a href="#social" onclick="closeMenu()">6. الهندسة الاجتماعية</a></li>
-            <li><a href="#wifi" onclick="closeMenu()">7. اختراق الوايرلس</a></li>
-            <li><a href="#brute" onclick="closeMenu()">8. كسر الباسوردات</a></li>
+            <li><a href="#setup" onclick="executeCloseMenu()">1. التهيئة والمشاكل</a></li>
+            <li><a href="#pdf-tools" onclick="executeCloseMenu()">2. أدوات المستندات</a></li>
+            <li><a href="#recon" onclick="executeCloseMenu()">3. الاستخبارات والجمع</a></li>
+            <li><a href="#scanning" onclick="executeCloseMenu()">4. فحص الثغرات</a></li>
+            <li><a href="#exploit" onclick="executeCloseMenu()">5. اختراق السيرفرات</a></li>
+            <li><a href="#social" onclick="executeCloseMenu()">6. الهندسة الاجتماعية</a></li>
+            <li><a href="#wifi" onclick="executeCloseMenu()">7. اختراق الوايرلس</a></li>
+            <li><a href="#brute" onclick="executeCloseMenu()">8. كسر الباسوردات</a></li>
         </ul>
     </nav>
 
     <main class="main-content container">
         <div class="search-container">
             <span class="search-icon">🔍</span>
-            <input type="text" id="wikiSearch" placeholder="ابحث فورا بالاسم أو الوصف (مثال: nmap, sqlmap, زعيم)..." oninput="searchWiki()">
+            <input type="text" id="wikiSearch" placeholder="ابحث فورا بالاسم أو الوصف (مثال: nmap, sqlmap, زعيم)..." oninput="executeSearch()">
         </div>
 
         <!-- 1. حلول المشاكل والتهيئة الأساسية -->
@@ -141,7 +142,7 @@
                     <p>أمر متكامل يحل مشكلة تعطل مستودعات تيرمكس الرسمية، ويقوم بتثبيت حزم بايثون، بي إتش بي، ونود دفعة واحدة لتفادي نقص الاعتماديات.</p>
                     <div class="code-block">
                         <code>termux-change-repo && pkg update && pkg upgrade -y && pkg install git python python2 python3 php nodejs nano wget curl clang -y</code>
-                        <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+                        <button class="copy-btn" onclick="executeCopy(this)">نسخ</button>
                     </div>
                 </div>
                 <div class="card">
@@ -150,7 +151,7 @@
                     <p>أمر إلزامي لإصلاح مشاكل تعطل ملفات requirements.txt الخاصة بالأدوات والسكربتات الحديثة والمتقدمة لمنع مشاكل التنصيب.</p>
                     <div class="code-block">
                         <code>pip install --upgrade pip && pip install setuptools wheel</code>
-                        <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+                        <button class="copy-btn" onclick="executeCopy(this)">نسخ</button>
                     </div>
                 </div>
             </div>
@@ -166,4 +167,8 @@
                     <p>الموسوعة المدمجة المليئة بأدوات جمع المعلومات، فحص الثغرات، واختبار الاختراق المقسمة برقم الاختيار والتي تم إصلاح رابط تحميلها لتنزيلها بالكامل [0.1.5، 0.1.6].</p>
                     <div class="code-block">
                         <code>apt update && apt upgrade -y && apt install git python2 -y && git clone https://github.com && cd alzaeem && python2 alzaeem.py</code>
-                        <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+                        <button class="copy-btn" onclick="executeCopy(this)">نسخ</button>
+                    </div>
+                </div>
+                <div class="card">
+        
