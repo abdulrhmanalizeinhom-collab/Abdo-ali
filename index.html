@@ -1,282 +1,228 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة المراقبة السيبرانية المتقدمة</title>
-    <style>
-        /* إعدادات الألوان والمتغيرات لنظام الليل والنهار */
-        :root {
-            /* الوضع الافتراضي (الليل/السيبراني الداكن) */
-            --bg-color: #050b14;
-            --panel-bg: rgba(10, 25, 47, 0.85);
-            --border-color: #00ffcc;
-            --text-main: #00ffcc;
-            --text-secondary: #8892b0;
-            --accent-hacker: #ff3366;
-            --accent-defense: #3399ff;
-            --terminal-text: #00ff66;
-            --shadow-glow: rgba(0, 255, 204, 0.3);
-        }
+import sys
+import time
 
-        /* عندما يتم تفعيل وضع النهار (المظهر الفاتح للمكاتب الأمنية) */
-        body.day-mode {
-            --bg-color: #f0f4f8;
-            --panel-bg: rgba(255, 255, 255, 0.95);
-            --border-color: #1e293b;
-            --text-main: #1e293b;
-            --text-secondary: #64748b;
-            --accent-hacker: #dc2626;
-            --accent-defense: #2563eb;
-            --terminal-text: #0f172a;
-            --shadow-glow: rgba(30, 41, 59, 0.15);
-        }
+class CyberSecurityAcademy:
+    def __init__(self):
+        self.score = 0
+        self.total_questions = 0
+        self.user_name = ""
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Courier New', Courier, monospace, Tahoma;
-        }
+    def clear_screen(self):
+        print("\n" * 3)
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            transition: all 0.5s ease;
-            min-height: 100vh;
-            padding: 20px;
-            overflow-x: hidden;
-        }
+    def print_header(self, title):
+        print("=" * 60)
+        print(f" {title.center(58)} ")
+        print("=" * 60)
 
-        /* شريط التحكم العلوي */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 25px;
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px var(--shadow-glow);
-        }
+    def start(self):
+        self.print_header("مرحباً بك في أكاديمية الأمن السيبراني الشاملة")
+        self.user_name = input("[-] الرجاء إدخال اسمك للبدء: ")
+        print(f"\n[+] أهلاً بك يا {self.user_name}. جهز نفسك لرحلة احترافية!")
+        time.sleep(1)
+        self.main_menu()
 
-        .system-status {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+    def main_menu(self):
+        while True:
+            self.clear_screen()
+            self.print_header("القائمة الرئيسية للمنصة")
+            print("1. 📚 المسارات التعليمية (المحتوى النظري والعملي)")
+            print("2. 🛠️ المختبر والأدوات العملية (التشفير وفحص الشبكات)")
+            print("3. 📝 نظام الاختبارات والتقييم (Quiz)")
+            print("4. 📊 عرض الإنجازات والنتيجة الحالية")
+            print("5. ❌ الخروج من التطبيق")
+            print("=" * 60)
+            
+            choice = input("[?] اختر رقم القسم الذي تريد الدخول إليه: ")
+            
+            if choice == '1':
+                self.education_tracks()
+            elif choice == '2':
+                self.practical_lab()
+            elif choice == '3':
+                self.start_interactive_quiz()
+            elif choice == '4':
+                self.show_achievements()
+            elif choice == '5':
+                print(f"\n[+] شكراً لاستخدامك الأكاديمية يا {self.user_name}. بالتوفيق في مسيرتك!")
+                sys.exit()
+            else:
+                print("\n[!] اختيار غير صحيح، حاول مجدداً.")
+                time.sleep(1)
 
-        .pulse-dot {
-            width: 12px;
-            height: 12px;
-            background-color: var(--text-main);
-            border-radius: 50%;
-            animation: pulse 1.5s infinite;
-        }
+    # ---------------- 1. القسم التعليمي ----------------
+    def education_tracks(self):
+        while True:
+            self.clear_screen()
+            self.print_header("📚 مسارات تعلم الأمن السيبراني")
+            print("1. أساسيات الأمن السيبراني (CIA Triad)")
+            print("2. ثغرات الويب الشهيرة (OWASP Top 10)")
+            print("3. أمن الشبكات والبروتوكولات (Network Security)")
+            print("4. علم التشفير (Cryptography)")
+            print("5. العودة للقائمة الرئيسية")
+            print("=" * 60)
+            
+            track = input("[?] اختر المسار التعليمي لقراءته: ")
+            
+            if track == '1':
+                self.show_lesson("أساسيات الأمن السيبراني", 
+                    "مثلث الـ CIA هو أساس الأمن السيبراني ويتكون من:\n"
+                    "1. السرية (Confidentiality): ضمان ألا يطلع على البيانات إلا المصرح لهم فقط. (مثل التشفير)\n"
+                    "2. السلامة (Integrity): ضمان عدم تعديل البيانات أو تزويرها أثناء النقل. (مثل الـ Hashing)\n"
+                    "3. التوافر (Availability): ضمان أن تكون الأنظمة والخدمات متاحة للمستخدمين دائماً. (مكافحة هجمات DoS)")
+            elif track == '2':
+                self.show_lesson("ثغرات الويب (OWASP Top 10)", 
+                    "أخطر ثغرات تطبيقات الويب تشمل:\n"
+                    "1. SQL Injection (SQLi): حقن أوامر برمجية خبيثة في قواعد البيانات لسرقة المعلومات.\n"
+                    "2. Cross-Site Scripting (XSS): حقن سكريبتات (JavaScript) في صفحات يراها مستخدمون آخرون لسرقة الجلسات (Cookies).\n"
+                    "3. Broken Authentication: ضعف نظام تسجيل الدخول يتيح للمخترقين تخمين كلمة المرور بسهولة.")
+            elif track == '3':
+                self.show_lesson("أمن الشبكات", 
+                    "الشبكات هي الممر الأساسي للبيانات، وأهم المفاهيم فيها:\n"
+                    "1. جدار الحماية (Firewall): جهاز أو برنامج يراقب حركة مرور الشبكة ويمنع الاتصالات غير المصرح بها.\n"
+                    "2. هجمات حجب الخدمة (DDoS): إغراق السيرفر بطلبات وهمية ضخمة من أجهزة متعددة لتعطيله عن العمل.\n"
+                    "3. بروتوكول HTTPS: النسخة الآمنة من HTTP وتقوم بتشفير البيانات بين المتصفح والسيرفر باستخدام TLS/SSL.")
+            elif track == '4':
+                self.show_lesson("علم التشفير (Cryptography)", 
+                    "ينقسم التشفير إلى نوعين رئيسيين:\n"
+                    "1. التشفير المتماثل (Symmetric): استخدام نفس المفتاح للتشفير وفك التشفير (مثل خوارزمية AES).\n"
+                    "2. التشفير غير المتماثل (Asymmetric): استخدام مفتاحين؛ مفتاح عام (Public) للتشفير ومفتاح خاص (Private) لفك التشفير (مثل RSA).")
+            elif track == '5':
+                break
+            else:
+                print("[!] اختيار غير متاح.")
+                time.sleep(1)
 
-        /* زر تحويل الوقت (ليل / نهار) */
-        .mode-toggle-btn {
-            background: linear-gradient(135deg, var(--accent-defense), var(--border-color));
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+    def show_lesson(self, title, content):
+        self.clear_screen()
+        self.print_header(title)
+        print(content)
+        print("=" * 60)
+        input("\n[+] اضغط Enter للعودة إلى قائمة المسارات...")
 
-        .mode-toggle-btn:hover {
-            transform: scale(1.05);
-        }
+    # ---------------- 2. المختبر العملي ----------------
+    def practical_lab(self):
+        while True:
+            self.clear_screen()
+            self.print_header("🛠️ المختبر العملي والأدوات")
+            print("1. تشغيل أداة محاكاة فحص المنافذ (Port Scanner)")
+            print("2. تشغيل أداة تشفير النصوص (Caesar Cipher)")
+            print("3. العودة للقائمة الرئيسية")
+            print("=" * 60)
+            
+            tool = input("[?] اختر الأداة التي تريد تجربتها: ")
+            
+            if tool == '1':
+                self.port_scanner_tool()
+            elif tool == '2':
+                self.caesar_cipher_tool()
+            elif tool == '3':
+                break
+            else:
+                print("[!] اختيار خاطئ.")
+                time.sleep(1)
 
-        /* تخطيط الشاشات الرئيسي */
-        .dashboard-layout {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-
-        @media (max-width: 1024px) {
-            .dashboard-layout { grid-template-columns: 1fr; }
-        }
-
-        .main-panel, .side-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        /* البطاقات البرمجية والشاشات */
-        .crypto-box {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 10px var(--shadow-glow);
-            position: relative;
-        }
-
-        .box-title {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            border-bottom: 1px dashed var(--border-color);
-            padding-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        /* شاشة المحادثة والاتصالات السيبرانية */
-        .terminal-stream {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 8px;
-            padding: 15px;
-            height: 350px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            font-size: 0.95rem;
-        }
-
-        .msg {
-            padding: 8px 12px;
-            border-radius: 6px;
-            line-height: 1.4;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .msg.hacker {
-            background: rgba(255, 51, 102, 0.1);
-            border-right: 4px solid var(--accent-hacker);
-            color: #ff4d7d;
-        }
-
-        .msg.defense {
-            background: rgba(51, 153, 255, 0.1);
-            border-right: 4px solid var(--accent-defense);
-            color: #4da6ff;
-        }
-
-        .msg.system {
-            background: rgba(0, 255, 204, 0.05);
-            border-right: 4px solid var(--border-color);
-            color: var(--text-main);
-            font-style: italic;
-        }
-
-        /* عدادات المراقبة */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px;
-        }
-
-        .stat-card {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .stat-val {
-            font-size: 1.6rem;
-            font-weight: bold;
-            margin-top: 5px;
-        }
-
-        /* الحركات والأنميشن */
-        @keyframes pulse {
-            0% { transform: scale(0.9); opacity: 0.6; }
-            50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 10px var(--border-color); }
-            100% { transform: scale(0.9); opacity: 0.6; }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* تخصيش شريط التمرير */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
-    </style>
-</head>
-<body>
-
-    <!-- شريط النظام العلوي -->
-    <header>
-        <div class="system-status">
-            <div class="pulse-dot"></div>
-            <div>
-                <h2>خادم المراقبة المركزي v4.0</h2>
-                <small id="time-display">جاري تحميل البيانات الحية...</small>
-            </div>
-        </div>
-        <button class="mode-toggle-btn" id="modeBtn">تبديل الوضع (ليل/نهار) 🌓</button>
-    </header>
-
-    <!-- الواجهة الأساسية للمنصة -->
-    <div class="dashboard-layout">
+    def port_scanner_tool(self):
+        self.clear_screen()
+        self.print_header("محاكي فحص المنافذ (Port Scanner Simulator)")
+        ip = input("[-] أدخل عنوان الـ IP المراد فحصه (مثال: 192.168.1.1): ")
+        print(f"\n[*] جاري بدء الفحص على {ip}...")
+        time.sleep(1)
         
-        <!-- القسم الرئيسي: شاشة المحادثات والعمليات -->
-        <div class="main-panel">
-            <div class="crypto-box">
-                <div class="box-title">
-                    <span>📡 بث مباشر: خط الدفاع والاتصالات السيبرانية المتدفقة</span>
-                    <span style="color: var(--accent-hacker);" id="attack-status">الحالة: مراقبة آمنة</span>
-                </div>
-                <!-- نافذة البيانات التي تتدفق تلقائياً -->
-                <div class="terminal-stream" id="terminalStream">
-                    <div class="msg system">[نظام] تم بدء بروتوكول التشغيل الذاتي... بانتظار رصد الحزم الأمنية.</div>
-                </div>
-            </div>
+        # محاكاة فحص لبعض المنافذ الشهيرة
+        ports = {21: "FTP (Open)", 22: "SSH (Open)", 80: "HTTP (Open)", 443: "HTTPS (Open)", 3389: "RDP (Closed)"}
+        for port, status in ports.items():
+            print(f"[+] Checking Port {port}... Found: {status}")
+            time.sleep(0.4)
+            
+        print("\n[+] اكتمل الفحص الأمني بنجاح!")
+        input("\nاضغط Enter للعودة...")
 
-            <!-- لوحة الهجمات والدفاع السريعة بالأسفل -->
-            <div class="crypto-box">
-                <div class="box-title">📊 عدادات البيانات الفورية للشبكة</div>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div>محاولات الاختراق المحجوبة</div>
-                        <div class="stat-val" id="blocked-count" style="color: var(--accent-defense);">3,412</div>
-                    </div>
-                    <div class="stat-card">
-                        <div>تغرات تم رصدها وسدها</div>
-                        <div class="stat-val" id="vuln-count" style="color: yellow;">14</div>
-                    </div>
-                    <div class="stat-card">
-                        <div>حجم التدفق الحالي</div>
-                        <div class="stat-val" style="color: var(--terminal-text);">1.2 Gbps</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    def caesar_cipher_tool(self):
+        self.clear_screen()
+        self.print_header("أداة تشفير سيزر (Caesar Cipher Tool)")
+        text = input("[-] أدخل النص (باللغة الإنجليزية فقط): ")
+        try:
+            shift = int(input("[-] أدخل مفتاح التشفير (رقم من 1-25): "))
+        except ValueError:
+            print("[!] يجب إدخال رقم. تم إلغاء العملية.")
+            time.sleep(1)
+            return
 
-        <!-- القسم الجانبي: سجل التحليلات وأوامر الاختراق المفرزة -->
-        <div class="side-panel">
-            <div class="crypto-box" style="height: 100%;">
-                <div class="box-title">🛡️ سجل استخبارات التهديدات</div>
-                <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.8;" id="logs-archive">
-                    <p>[00:01] فحص جدار الحماية دوري: مستقر.</p>
-                    <p>[00:15] رصد محاولة مسح منافذ من عنوان IP خارجي عشوائي.</p>
-                </div>
-            </div>
-        </div>
+        encrypted = ""
+        for char in text:
+            if char.isalpha():
+                ascii_offset = 65 if char.isupper() else 97
+                encrypted += chr((ord(char) - ascii_offset + shift) % 26 + ascii_offset)
+            else:
+                encrypted += char
+                
+        print(f"\n[+] النص المشفر هو: {encrypted}")
+        input("\nاضغط Enter للعودة...")
 
-    </div>
-
-    <script>
-        // مصفوفة ضخمة من الحوارات التفاعلية والسيناريوهات الأمنية المحاكية للواقع
-        const cyberDialogues = [
-            { type: 'hacker', text: "[هجوم هكر] رصد ثغرة غير مصلحة في قاعدة بيانات خادم الويب الخارجي.. جاري حقن كود خبيث SQL Injection..." },
-            { type: 'defense', text: "[الأمن السيبراني] إنذار أمني مبكر! تم استشعار حركة غريبة في الخادم. تفعيل جدار الحماية الذكي وحظر الـ IP المهاجم فوراً." },
-            { type: 'system', text: "[نظام] تم صد المحاولة بنجاح وعزل قاعدة البيانات الحساسة." },
-            { type: 'hacker', text: "[هجوم هكر] يبدو أنهم منتبهون.. سأحول الهجوم إلى بروتوكول DDoS وعمل فيض من الطلبات لإسقاط الشبكة كاملة عن العمل!" },
-            { type: 'defense', text: "[الأمن السيبراني] ارتفاع هائل ومفاجئ في حركة المرور! تشغيل نظام توزيع الحمولات واستخدام حماية Cloudflare الذكية لتصفية الحزم." },
-            { type: 'system', text: "[نظام] حظر 2500 طلب وهمي قادم من شبكة بوت نت (Botnet) دولية." },
-            { type: 'hacker', text: "[هجوم هكر] محاولة أخيرة: إرسال بريد الكتروني تصيدي (Phishing) يستهدف الموظفين للحصول على صلاحيات الإدارة العليا." },
+    # ---------------- 3. نظام الاختبارات ----------------
+    def start_interactive_quiz(self):
+        self.clear_screen()
+        self.print_header("📝 بدء الاختبار الأكاديمي الشامل")
+        print("سيتكون الاختبار من أسئلة قوية لقياس مستواك الحقيقي.")
+        input("[!] اضغط Enter عندما تكون مستعداً لبدء السؤال الأول...")
+        
+        # تفاصيل الأسئلة: (السؤال، الاختيارات، الإجابة الصحيحة الرقمية)
+        questions = [
+            {
+                "question": "ما هو البروتوكول المسؤول عن تشفير حركة المرور بين المتصفح والموقع؟",
+                "options": ["1. HTTP", "2. HTTPS", "3. FTP", "4. SMTP"],
+                "answer": "2"
+            },
+            {
+                "question": "أي من الثغرات التالية يحدث عند حقن سكريبتات خبيثة لتعمل في متصفح الضحية؟",
+                "options": ["1. SQL Injection", "2. DDoS", "3. Cross-Site Scripting (XSS)", "4. Brute Force"],
+                "answer": "3"
+            },
+            {
+                "question": "في التشفير غير المتماثل (Asymmetric)، أي مفتاح يُستخدم لتشفيير البيانات؟",
+                "options": ["1. المفتاح الخاص (Private Key)", "2. المفتاح العام (Public Key)", "3. مفتاح الجلسة (Session Key)", "4. لا شيء مما سبق"],
+                "answer": "2"
+            },
+            {
+                "question": "هجمة الـ DDoS Attack تضرب أي ضلع من أضلاع مثلث الـ CIA للأمن؟",
+                "options": ["1. Confidentiality (السرية)", "2. Integrity (السلامة)", "3. Availability (التوافر)", "4. Non-repudiation"],
+                "answer": "3"
+            },
+            {
+                "question": "ما هي الوظيفة الأساسية لجدار الحماية (Firewall) في الشبكة؟",
+                "options": ["1. تشفير الملفات الشخصية", "2. تصفية وفحص حزم البيانات الواردة والصادرة", "3. تسريع سرعة الإنترنت", "4. توليد كلمات مرور قوية"],
+                "answer": "2"
+            }
+        ]
+        
+        local_score = 0
+        for i, q in enumerate(questions, 1):
+            self.clear_screen()
+            print(f"السؤال رقم ({i}/{len(questions)}):")
+            print(f"🔹 {q['question']}\n")
+            for option in q['options']:
+                print(option)
+            print("-" * 40)
+            
+            user_ans = input("[?] اختر رقم الإجابة الصحيحة: ").strip()
+            
+            if user_ans == q['answer']:
+                print("\n✅ إجابة صحيحة! أحسنت.")
+                local_score += 1
+            else:
+                correct_idx = int(q['answer']) - 1
+                print(f"\n❌ إجابة خاطئة. الإجابة الصحيحة هي: {q['options'][correct_idx]}")
+                
+            time.sleep(2)
+            
+        # تحديث السجل الإجمالي للمستخدم
+        self.score += local_score
+        self.total_questions += len(questions)
+        
+        self.clear_screen()
+        self.print_header("نتائج الاختبار الحالي")
+        print(f"لقد أجبت بشكل صحيح على {local_score} من أصل {len(questions)} أسئلة.")
+        percentage = (local_score / len(questions)) * 100
+        print(f"نسبة نجاحك في هذا الاختبار: {percentage}%")
+        
