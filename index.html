@@ -1,228 +1,144 @@
-import sys
-import time
+import tkinter as tk
+from tkinter import messagebox, scrolledtext, ttk
+import random
 
-class CyberSecurityAcademy:
-    def __init__(self):
+class CyberSecurityMegaApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("الموسوعة الكبرى لعلوم الأمن السيبراني والرد الذكي")
+        self.root.geometry("900x700")
+        self.root.configure(bg="#0f172a") # ثيم داكن احترافي
+        
+        # إحصائيات المستخدم التراكمية
         self.score = 0
-        self.total_questions = 0
-        self.user_name = ""
-
-    def clear_screen(self):
-        print("\n" * 3)
-
-    def print_header(self, title):
-        print("=" * 60)
-        print(f" {title.center(58)} ")
-        print("=" * 60)
-
-    def start(self):
-        self.print_header("مرحباً بك في أكاديمية الأمن السيبراني الشاملة")
-        self.user_name = input("[-] الرجاء إدخال اسمك للبدء: ")
-        print(f"\n[+] أهلاً بك يا {self.user_name}. جهز نفسك لرحلة احترافية!")
-        time.sleep(1)
-        self.main_menu()
-
-    def main_menu(self):
-        while True:
-            self.clear_screen()
-            self.print_header("القائمة الرئيسية للمنصة")
-            print("1. 📚 المسارات التعليمية (المحتوى النظري والعملي)")
-            print("2. 🛠️ المختبر والأدوات العملية (التشفير وفحص الشبكات)")
-            print("3. 📝 نظام الاختبارات والتقييم (Quiz)")
-            print("4. 📊 عرض الإنجازات والنتيجة الحالية")
-            print("5. ❌ الخروج من التطبيق")
-            print("=" * 60)
-            
-            choice = input("[?] اختر رقم القسم الذي تريد الدخول إليه: ")
-            
-            if choice == '1':
-                self.education_tracks()
-            elif choice == '2':
-                self.practical_lab()
-            elif choice == '3':
-                self.start_interactive_quiz()
-            elif choice == '4':
-                self.show_achievements()
-            elif choice == '5':
-                print(f"\n[+] شكراً لاستخدامك الأكاديمية يا {self.user_name}. بالتوفيق في مسيرتك!")
-                sys.exit()
-            else:
-                print("\n[!] اختيار غير صحيح، حاول مجدداً.")
-                time.sleep(1)
-
-    # ---------------- 1. القسم التعليمي ----------------
-    def education_tracks(self):
-        while True:
-            self.clear_screen()
-            self.print_header("📚 مسارات تعلم الأمن السيبراني")
-            print("1. أساسيات الأمن السيبراني (CIA Triad)")
-            print("2. ثغرات الويب الشهيرة (OWASP Top 10)")
-            print("3. أمن الشبكات والبروتوكولات (Network Security)")
-            print("4. علم التشفير (Cryptography)")
-            print("5. العودة للقائمة الرئيسية")
-            print("=" * 60)
-            
-            track = input("[?] اختر المسار التعليمي لقراءته: ")
-            
-            if track == '1':
-                self.show_lesson("أساسيات الأمن السيبراني", 
-                    "مثلث الـ CIA هو أساس الأمن السيبراني ويتكون من:\n"
-                    "1. السرية (Confidentiality): ضمان ألا يطلع على البيانات إلا المصرح لهم فقط. (مثل التشفير)\n"
-                    "2. السلامة (Integrity): ضمان عدم تعديل البيانات أو تزويرها أثناء النقل. (مثل الـ Hashing)\n"
-                    "3. التوافر (Availability): ضمان أن تكون الأنظمة والخدمات متاحة للمستخدمين دائماً. (مكافحة هجمات DoS)")
-            elif track == '2':
-                self.show_lesson("ثغرات الويب (OWASP Top 10)", 
-                    "أخطر ثغرات تطبيقات الويب تشمل:\n"
-                    "1. SQL Injection (SQLi): حقن أوامر برمجية خبيثة في قواعد البيانات لسرقة المعلومات.\n"
-                    "2. Cross-Site Scripting (XSS): حقن سكريبتات (JavaScript) في صفحات يراها مستخدمون آخرون لسرقة الجلسات (Cookies).\n"
-                    "3. Broken Authentication: ضعف نظام تسجيل الدخول يتيح للمخترقين تخمين كلمة المرور بسهولة.")
-            elif track == '3':
-                self.show_lesson("أمن الشبكات", 
-                    "الشبكات هي الممر الأساسي للبيانات، وأهم المفاهيم فيها:\n"
-                    "1. جدار الحماية (Firewall): جهاز أو برنامج يراقب حركة مرور الشبكة ويمنع الاتصالات غير المصرح بها.\n"
-                    "2. هجمات حجب الخدمة (DDoS): إغراق السيرفر بطلبات وهمية ضخمة من أجهزة متعددة لتعطيله عن العمل.\n"
-                    "3. بروتوكول HTTPS: النسخة الآمنة من HTTP وتقوم بتشفير البيانات بين المتصفح والسيرفر باستخدام TLS/SSL.")
-            elif track == '4':
-                self.show_lesson("علم التشفير (Cryptography)", 
-                    "ينقسم التشفير إلى نوعين رئيسيين:\n"
-                    "1. التشفير المتماثل (Symmetric): استخدام نفس المفتاح للتشفير وفك التشفير (مثل خوارزمية AES).\n"
-                    "2. التشفير غير المتماثل (Asymmetric): استخدام مفتاحين؛ مفتاح عام (Public) للتشفير ومفتاح خاص (Private) لفك التشفير (مثل RSA).")
-            elif track == '5':
-                break
-            else:
-                print("[!] اختيار غير متاح.")
-                time.sleep(1)
-
-    def show_lesson(self, title, content):
-        self.clear_screen()
-        self.print_header(title)
-        print(content)
-        print("=" * 60)
-        input("\n[+] اضغط Enter للعودة إلى قائمة المسارات...")
-
-    # ---------------- 2. المختبر العملي ----------------
-    def practical_lab(self):
-        while True:
-            self.clear_screen()
-            self.print_header("🛠️ المختبر العملي والأدوات")
-            print("1. تشغيل أداة محاكاة فحص المنافذ (Port Scanner)")
-            print("2. تشغيل أداة تشفير النصوص (Caesar Cipher)")
-            print("3. العودة للقائمة الرئيسية")
-            print("=" * 60)
-            
-            tool = input("[?] اختر الأداة التي تريد تجربتها: ")
-            
-            if tool == '1':
-                self.port_scanner_tool()
-            elif tool == '2':
-                self.caesar_cipher_tool()
-            elif tool == '3':
-                break
-            else:
-                print("[!] اختيار خاطئ.")
-                time.sleep(1)
-
-    def port_scanner_tool(self):
-        self.clear_screen()
-        self.print_header("محاكي فحص المنافذ (Port Scanner Simulator)")
-        ip = input("[-] أدخل عنوان الـ IP المراد فحصه (مثال: 192.168.1.1): ")
-        print(f"\n[*] جاري بدء الفحص على {ip}...")
-        time.sleep(1)
+        self.total_answered = 0
+        self.current_quiz_questions = []
+        self.current_q_index = 0
         
-        # محاكاة فحص لبعض المنافذ الشهيرة
-        ports = {21: "FTP (Open)", 22: "SSH (Open)", 80: "HTTP (Open)", 443: "HTTPS (Open)", 3389: "RDP (Closed)"}
-        for port, status in ports.items():
-            print(f"[+] Checking Port {port}... Found: {status}")
-            time.sleep(0.4)
-            
-        print("\n[+] اكتمل الفحص الأمني بنجاح!")
-        input("\nاضغط Enter للعودة...")
+        self.setup_styles()
+        self.create_main_layout()
 
-    def caesar_cipher_tool(self):
-        self.clear_screen()
-        self.print_header("أداة تشفير سيزر (Caesar Cipher Tool)")
-        text = input("[-] أدخل النص (باللغة الإنجليزية فقط): ")
-        try:
-            shift = int(input("[-] أدخل مفتاح التشفير (رقم من 1-25): "))
-        except ValueError:
-            print("[!] يجب إدخال رقم. تم إلغاء العملية.")
-            time.sleep(1)
-            return
+    def setup_styles(self):
+        style = ttk.Style()
+        style.theme_use("clam")
+        style.configure("TNotebook", background="#0f172a", borderwidth=0)
+        style.configure("TNotebook.Tab", font=("Arial", 12, "bold"), background="#1e293b", foreground="#94a3b8", padding=[15, 5])
+        style.map("TNotebook.Tab", background=[("selected", "#3b82f6")], foreground=[("selected", "#ffffff")])
 
-        encrypted = ""
-        for char in text:
-            if char.isalpha():
-                ascii_offset = 65 if char.isupper() else 97
-                encrypted += chr((ord(char) - ascii_offset + shift) % 26 + ascii_offset)
-            else:
-                encrypted += char
-                
-        print(f"\n[+] النص المشفر هو: {encrypted}")
-        input("\nاضغط Enter للعودة...")
+    def create_main_layout(self):
+        # العنوان العلوي
+        header = tk.Label(self.root, text="🛡️ PLATINUM CYBER SECURITY ACADEMY 🛡️", font=("Segoe UI", 20, "bold"), bg="#1e293b", fg="#3b82f6", pady=15)
+        header.pack(fill=tk.X)
 
-    # ---------------- 3. نظام الاختبارات ----------------
-    def start_interactive_quiz(self):
-        self.clear_screen()
-        self.print_header("📝 بدء الاختبار الأكاديمي الشامل")
-        print("سيتكون الاختبار من أسئلة قوية لقياس مستواك الحقيقي.")
-        input("[!] اضغط Enter عندما تكون مستعداً لبدء السؤال الأول...")
-        
-        # تفاصيل الأسئلة: (السؤال، الاختيارات، الإجابة الصحيحة الرقمية)
-        questions = [
-            {
-                "question": "ما هو البروتوكول المسؤول عن تشفير حركة المرور بين المتصفح والموقع؟",
-                "options": ["1. HTTP", "2. HTTPS", "3. FTP", "4. SMTP"],
-                "answer": "2"
-            },
-            {
-                "question": "أي من الثغرات التالية يحدث عند حقن سكريبتات خبيثة لتعمل في متصفح الضحية؟",
-                "options": ["1. SQL Injection", "2. DDoS", "3. Cross-Site Scripting (XSS)", "4. Brute Force"],
-                "answer": "3"
-            },
-            {
-                "question": "في التشفير غير المتماثل (Asymmetric)، أي مفتاح يُستخدم لتشفيير البيانات؟",
-                "options": ["1. المفتاح الخاص (Private Key)", "2. المفتاح العام (Public Key)", "3. مفتاح الجلسة (Session Key)", "4. لا شيء مما سبق"],
-                "answer": "2"
-            },
-            {
-                "question": "هجمة الـ DDoS Attack تضرب أي ضلع من أضلاع مثلث الـ CIA للأمن؟",
-                "options": ["1. Confidentiality (السرية)", "2. Integrity (السلامة)", "3. Availability (التوافر)", "4. Non-repudiation"],
-                "answer": "3"
-            },
-            {
-                "question": "ما هي الوظيفة الأساسية لجدار الحماية (Firewall) في الشبكة؟",
-                "options": ["1. تشفير الملفات الشخصية", "2. تصفية وفحص حزم البيانات الواردة والصادرة", "3. تسريع سرعة الإنترنت", "4. توليد كلمات مرور قوية"],
-                "answer": "2"
-            }
-        ]
-        
-        local_score = 0
-        for i, q in enumerate(questions, 1):
-            self.clear_screen()
-            print(f"السؤال رقم ({i}/{len(questions)}):")
-            print(f"🔹 {q['question']}\n")
-            for option in q['options']:
-                print(option)
-            print("-" * 40)
-            
-            user_ans = input("[?] اختر رقم الإجابة الصحيحة: ").strip()
-            
-            if user_ans == q['answer']:
-                print("\n✅ إجابة صحيحة! أحسنت.")
-                local_score += 1
-            else:
-                correct_idx = int(q['answer']) - 1
-                print(f"\n❌ إجابة خاطئة. الإجابة الصحيحة هي: {q['options'][correct_idx]}")
-                
-            time.sleep(2)
-            
-        # تحديث السجل الإجمالي للمستخدم
-        self.score += local_score
-        self.total_questions += len(questions)
-        
-        self.clear_screen()
-        self.print_header("نتائج الاختبار الحالي")
-        print(f"لقد أجبت بشكل صحيح على {local_score} من أصل {len(questions)} أسئلة.")
-        percentage = (local_score / len(questions)) * 100
-        print(f"نسبة نجاحك في هذا الاختبار: {percentage}%")
-        
+        # إنشاء التبويبات (Tabs) مثل المواقع الكبرى
+        self.notebook = ttk.Notebook(self.root)
+        self.notebook.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+
+        # التبويبات الرئيسية
+        self.tab_education = tk.Frame(self.notebook, bg="#0f172a")
+        self.tab_chatbot = tk.Frame(self.notebook, bg="#0f172a")
+        self.tab_quiz = tk.Frame(self.notebook, bg="#0f172a")
+        self.tab_stats = tk.Frame(self.notebook, bg="#0f172a")
+
+        self.notebook.add(self.tab_education, text="📚 الموسوعة التعليمية التفصيلية")
+        self.notebook.add(self.tab_chatbot, text="🤖 مساعد الأمن السيبراني الذكي")
+        self.notebook.add(self.tab_quiz, text="📝 بنك الاختبارات الأكاديمية")
+        self.notebook.add(self.tab_stats, text="📊 لوحة التحكم والإنجازات")
+
+        self.build_education_tab()
+        self.build_chatbot_tab()
+        self.build_quiz_tab()
+        self.build_stats_tab()
+
+    # =========================================================================
+    # 1. تبويب الموسوعة التعليمية الضخمة (محتوى أكاديمي مكثف بكل تفصيلة)
+    # =========================================================================
+    def build_education_tab(self):
+        # تقسيم الشاشة إلى قائمة جانبية ومحتوى لعرض الدروس
+        left_frame = tk.Frame(self.tab_education, bg="#1e293b", width=250)
+        left_frame.pack(side=tk.LEFT, fill=tk.Y, padx=5, pady=5)
+        left_frame.pack_propagate(False)
+
+        right_frame = tk.Frame(self.tab_education, bg="#0f172a")
+        right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=5, pady=5)
+
+        tk.Label(left_frame, text="المسارات المتطورة", font=("Arial", 12, "bold"), bg="#1e293b", fg="#3b82f6", pady=10).pack()
+
+        # نص عرض الشروحات
+        self.edu_text = scrolledtext.ScrolledText(right_frame, wrap=tk.WORD, font=("Arial", 12), bg="#1e293b", fg="#e2e8f0", spacing3=10, padx=10, pady=10)
+        self.edu_text.pack(fill=tk.BOTH, expand=True)
+        self.edu_text.insert(tk.END, "⚠️ اختر مساراً تعليمياً من القائمة الجانبية لبدء القراءة المتعمقة وتحليل الشيفرات والثغرات بالتفصيل الممل.")
+        self.edu_text.config(state=tk.DISABLED)
+
+        # موسوعة المحتوى العلمي
+        self.cyber_encyclopedia = {
+            "1. ثغرات الويب: SQL Injection": (
+                "📌 مسار اختراق تطبيقات الويب المتقدم: ثغرة حقن أوامر قواعد البيانات (SQLi)\n\n"
+                "🔍 الوصف الدقيق:\n"
+                "تحدث هذه الثغرة عندما يتم دمج مدخلات المستخدم مباشرة مع استعلامات SQL المرسلة إلى قاعدة البيانات "
+                "دون فحص أو تصفية (Sanitization)، مما يتيح للمهاجم خداع التطبيق وتنفيذ أوامر 임 عشوائية.\n\n"
+                "💥 سيناريو الهجوم (Attack Scenario):\n"
+                "تخيل صفحة تسجيل دخول تطلب اسم المستخدم. الاستعلام الخلفي يكون كالتالي:\n"
+                "SELECT * FROM users WHERE username = '" + "USER_INPUT" + "' AND password = 'PAS';\n"
+                "إذا قام المهاجم بإدخال: ' OR '1'='1 في حقل اسم المستخدم، يتحول الاستعلام إلى:\n"
+                "SELECT * FROM users WHERE username = '' OR '1'='1' ...\n"
+                "بما أن شرط '1'='1' محقق دائماً، يتم تخطي الحماية فوراً والدخول لأي حساب دون الحاجة لكلمة مرور!\n\n"
+                "🛡️ آليات الدفاع الجذري (Remediation):\n"
+                "1. الاستعلامات المجهزة (Parameterized Queries / Prepared Statements): تفصل البيانات تماماً عن البنية البرمجية للاستعلام.\n"
+                "2. استخدام ميزانات التحقق المسبق (Input Validation) عبر قوائم السماح (Whitelisting).\n"
+                "3. تطبيق مبدأ الصلاحيات الأقل (Least Privilege) على حساب قاعدة البيانات بحيث لا يستطيع حذف الجداول."
+            ),
+            "2. ثغرات الويب: XSS & CSRF": (
+                "📌 ثغرات الطرف العميل: Cross-Site Scripting (XSS) & Cross-Site Request Forgery (CSRF)\n\n"
+                "🔍 أولاً: ثغرة الـ XSS (حقن السكريبتات عبر المواقع):\n"
+                "تمكن المهاجم من حقن أكواد JavaScript خبيثة داخل صفحات يزورها مستخدمون آخرون. تنقسم إلى ثلاثة أنواع:\n"
+                "- Stored XSS: الكود الخبيث يُخزن في قاعدة البيانات (مثل التعليقات) ويعمل عند كل زائر للعنوان.\n"
+                "- Reflected XSS: الكود يُرسل ضمن الرابط (URL) وينفذ فوراً للضحية الذي يضغط عليه.\n"
+                "- DOM-based XSS: الثغرة تكون بالكامل في كود الجافاسكريبت الخاص بالمتصفح أثناء معالجة المدخلات.\n\n"
+                "🎯 خطرها الشديد: سرقة ملفات تعريف الارتباط (Session Cookies) واختطاف الحسابات.\n\n"
+                "🔍 ثانياً: ثغرة الـ CSRF (تزوير الطلبات عبر المواقع):\n"
+                "إجبار الضحية (دون علمه) على إرسال طلب أمني خبيث إلى موقع هو مسجل الدخول فيه بالفعل. "
+                "على سبيل المثال، يقوم المهاجم بوضع رابط مخفي لتغيير البريد الإلكتروني في موقع بنكي، "
+                "وعند زيارة الضحية لمدونة المهاجم، يقوم المتصفح بإرسال الطلب للبنك تلقائياً لأن الكوكيز مخزنة.\n\n"
+                "🛡️ سبل الدفاع:\n"
+                "- للـ XSS: استخدام التشفير الخارجي للمخرجات (Context-Aware Output Encoding) مثل تحويل < إلى &lt;.\n"
+                "- للـ CSRF: توليد واستخدام رموز الحماية العشوائية الفريدة (Anti-CSRF Tokens) لكل عملية حساسة."
+            ),
+            "3. أمن الشبكات والبروتوكولات": (
+                "📌 مسار بنية الشبكات التحتية وهندسة الاختراق (Network Pentesting):\n\n"
+                "🔍 فهم عائلة بروتوكولات TCP/IP:\n"
+                "الشبكات تعتمد على نقل حزم البيانات (Packets). الخلل الأمني يكمن في التصميم الأصلي لبعض البروتوكولات:\n"
+                "- HTTP / FTP / Telnet: تنقل البيانات بنص واضح (Plain Text) مما يجعلها صيداً سهلاً لهجمات التسمع والاعتراض.\n"
+                "- HTTPS / SFTP / SSH: الحل البديل الآمن، حيث يتم تشفير القناة بأكملها باستخدام بروتوكول TLS/SSL.\n\n"
+                "💥 هجوم رجل في المنتصف (Man-in-the-Middle - MitM):\n"
+                "يتموضع المهاجم بين الضحية والموجّه (Router) عبر تقنية 'تسميم بروتوكول ARP' (ARP Poisoning)، "
+                "حيث يرسل رسائل ARP وهمية تجعل جهاز الضحية يظن أن المهاجم هو الراوتر، والعكس صحيح، وبالتالي تمر كل البيانات من خلاله.\n\n"
+                "🛡️ جدران الحماية وأنظمة الكشف (Firewalls, IDS/IPS):\n"
+                "- جدار الحماية (Firewall): يراقب الحزم بناءً على قواعد ثابتة (IP, Port).\n"
+                "- نظام كشف التسلل (IDS): يحلل الأنماط السلوكية ويكتشف الهجمات دون إيقافها.\n"
+                "- نظام منع التسلل (IPS): يكتشف الهجوم ويقوم بقطع الاتصال وحظر المهاجم فوراً لحماية الشبكة."
+            ),
+            "4. الهندسة العكسية وتحليل البرمجيات الخبيثة": (
+                "📌 مسار الهندسة العكسية (Reverse Engineering) وتحليل الـ Malware:\n\n"
+                "🔍 البرمجيات الخبيثة تنقسم إلى عدة أنواع خطيرة:\n"
+                "1. الفيروسات (Viruses): تتطلب تدخلاً من المستخدم لتلتصق بملف تنفيذي وتنتشر.\n"
+                "2. الديدان (Worms): برمجيات مستقلة تنتشر ذاتياً عبر ثغرات الشبكة (مثل ورم WannaCry الشهير).\n"
+                "3. برامج الفدية (Ransomware): تقوم بتشفير كافة ملفات الضحية بخوارزميات معقدة مثل AES-256، وتطلب عملات رقمية لفكها.\n\n"
+                "🔬 منهجيات التحليل المتقدمة:\n"
+                "- التحليل الساكن (Static Analysis): فحص الملف التنفيذي دون تشغيله، وقراءة النصوص البرمجية (Strings)، واستخراج قيم الـ Hash، وتحليل الـ PE Header.\n"
+                "- التحليل الديناميكي (Dynamic Analysis): تشغيل الملف في بيئة معزولة تماماً (Sandbox) ومراقبة التعديلات في نظام الريجستري (Registry)، والاتصالات بالشبكة، وتغيرات الذاكرة.\n"
+                "- تفكيك الأكواد (Disassembly / Decompilation): استخدام أدوات مثل IDA Pro أو Ghidra لتحويل لغة الآلة الثنائية (Binary) إلى لغة أسمبلي (Assembly) أو كود C مفهوم لفهم المنطق البرمجي للفايروس."
+            ),
+            "5. التشفير المتقدم وأنظمة التعمية": (
+                "📌 مسار الرياضيات التطبيقية: علم التشفير (Cryptography):\n\n"
+                "🔍 التشفير المتماثل (Symmetric Cryptography):\n"
+                "يستخدم مفتاحاً سرياً واحداً لعمليتي التشفير وفك التشفير. يتميز بالسرعة الفائقة لابتلاع كميات بيانات ضخمة.\n"
+                "أبرز خوارزمياته المعتمدة عالمياً: AES (Advanced Encryption Standard).\n\n"
+                "🔍 التشفير غير المتماثل (Asymmetric Cryptography):\n"
+                "يحل معضلة تبادل المفاتيح الأمني. يعتمد على زوج من المفاتيح الرياضية المترابطة:\n"
+                "- المفتاح العام (Public Key): يوزع للجميع ويستخدم فقط لتشفير البيانات.\n"
+                "- المفتاح الخاص (Private Key): يظل سرياً جداً مع صاحبه وهو الوحيد القادر على فك التشفير.\n"
+                "أشهر الخوارزميات: RSA (تعتمد على صعوبة تحليل العوامل الأولية للأعداد الضخمة)، و ECC (تشفير المنحنيات البيضاوية).\n\n"
+                "🔍 دوال الهاش الرقمية (Cryptographic Hashing):\n"
+                "دوال ذات اتجاه واحد (One-Way) تحول أي نص مهما كان حجمه إلى سلسلة ثابتة الطول (مثل SHA-256). "
+                "تتميز بخاصية Avalanche Effect (أي تغيير في حرف واحد يغير الهاش بالكامل) وتُستخدم للتحقق من سلامة الملفات (Integrity) وتخزين كلمات المرور الآمنة."
