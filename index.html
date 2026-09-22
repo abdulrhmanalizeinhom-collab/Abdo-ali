@@ -1,144 +1,148 @@
-import tkinter as tk
-from tkinter import messagebox, scrolledtext, ttk
-import random
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأكاديمية البلاتينية للأمن السيبراني</title>
+    <!-- Tailwind CSS لتنسيق واجهة خرافية وسريعة جداً -->
+    <script src="https://jsdelivr.net"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    </style>
+</head>
+<body class="bg-[#0f172a] text-[#e2e8f0] min-h-screen">
 
-class CyberSecurityMegaApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("الموسوعة الكبرى لعلوم الأمن السيبراني والرد الذكي")
-        self.root.geometry("900x700")
-        self.root.configure(bg="#0f172a") # ثيم داكن احترافي
-        
-        # إحصائيات المستخدم التراكمية
-        self.score = 0
-        self.total_answered = 0
-        self.current_quiz_questions = []
-        self.current_q_index = 0
-        
-        self.setup_styles()
-        self.create_main_layout()
+    <!-- شريط العنوان العلوي -->
+    <header class="bg-[#1e293b] border-b border-[#334155] p-6 text-center shadow-lg">
+        <h1 class="text-3xl font-extrabold text-[#3b82f6] tracking-wide">🛡️ PLATINUM CYBER SECURITY ACADEMY 🛡️</h1>
+        <p class="text-[#94a3b8] mt-2">منصة التعلم الشامل، الاختبارات الأكاديمية والرد الذكي المباشر</p>
+    </header>
 
-    def setup_styles(self):
-        style = ttk.Style()
-        style.theme_use("clam")
-        style.configure("TNotebook", background="#0f172a", borderwidth=0)
-        style.configure("TNotebook.Tab", font=("Arial", 12, "bold"), background="#1e293b", foreground="#94a3b8", padding=[15, 5])
-        style.map("TNotebook.Tab", background=[("selected", "#3b82f6")], foreground=[("selected", "#ffffff")])
+    <!-- أزرار التنقل بين الأقسام (Tabs) -->
+    <div class="max-w-6xl mx-auto mt-6 px-4">
+        <div class="flex flex-wrap gap-2 justify-center border-b border-[#334155] pb-4">
+            <button onclick="switchTab('edu')" id="btn-edu" class="tab-btn px-6 py-3 rounded-lg font-bold bg-[#3b82f6] text-white transition">📚 الموسوعة التعليمية</button>
+            <button onclick="switchTab('bot')" id="btn-bot" class="tab-btn px-6 py-3 rounded-lg font-bold bg-[#1e293b] text-[#94a3b8] hover:bg-[#334155] transition">🤖 المساعد السيبراني الذكي</button>
+            <button onclick="switchTab('quiz')" id="btn-quiz" class="tab-btn px-6 py-3 rounded-lg font-bold bg-[#1e293b] text-[#94a3b8] hover:bg-[#334155] transition">📝 بنك الاختبارات</button>
+            <button onclick="switchTab('stats')" id="btn-stats" class="tab-btn px-6 py-3 rounded-lg font-bold bg-[#1e293b] text-[#94a3b8] hover:bg-[#334155] transition">📊 لوحة التحكم والرتبة</button>
+        </div>
+    </div>
 
-    def create_main_layout(self):
-        # العنوان العلوي
-        header = tk.Label(self.root, text="🛡️ PLATINUM CYBER SECURITY ACADEMY 🛡️", font=("Segoe UI", 20, "bold"), bg="#1e293b", fg="#3b82f6", pady=15)
-        header.pack(fill=tk.X)
+    <!-- المحتوى الرئيسي للموقع -->
+    <main class="max-w-6xl mx-auto p-4 mt-4">
 
-        # إنشاء التبويبات (Tabs) مثل المواقع الكبرى
-        self.notebook = ttk.Notebook(self.root)
-        self.notebook.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        <!-- 1. تبويب الموسوعة التعليمية -->
+        <section id="tab-edu" class="tab-content grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="md:col-span-1 bg-[#1e293b] p-4 rounded-xl space-y-2 h-fit border border-[#334155]">
+                <h3 class="text-[#3b82f6] font-bold text-lg mb-4 border-b border-[#334155] pb-2">المسارات المتقدمة</h3>
+                <button onclick="loadLesson('web')" class="w-full text-right p-3 rounded-lg bg-[#334155] hover:bg-[#475569] font-medium transition">1. ثغرات الويب: SQLi</button>
+                <button onclick="loadLesson('xss')" class="w-full text-right p-3 rounded-lg bg-[#1e293b] hover:bg-[#334155] font-medium transition">2. ثغرات الطرف العميل</button>
+                <button onclick="loadLesson('net')" class="w-full text-right p-3 rounded-lg bg-[#1e293b] hover:bg-[#334155] font-medium transition">3. أمن الشبكات والـ MitM</button>
+                <button onclick="loadLesson('rev')" class="w-full text-right p-3 rounded-lg bg-[#1e293b] hover:bg-[#334155] font-medium transition">4. الهندسة العكسية والملفات الخبيثة</button>
+            </div>
+            <div class="md:col-span-3 bg-[#1e293b] p-6 rounded-xl border border-[#334155] shadow-md min-h-[400px]">
+                <div id="lesson-body" class="whitespace-pre-line leading-relaxed text-base">
+                    <h2 class="text-2xl font-bold text-[#3b82f6] mb-4">مرحباً بك في الموسوعة الأكاديمية 🎓</h2>
+                    <p class="text-[#94a3b8]">اختر أحد المسارات من القائمة الجانبية اليمنى لبدء الدراسة المتعمقة والتعرف على الأكواد والحلول الأمنية بالتفصيل الشديد الذي يتفوق على منصات كاسيو التعليمية.</p>
+                </div>
+            </div>
+        </section>
 
-        # التبويبات الرئيسية
-        self.tab_education = tk.Frame(self.notebook, bg="#0f172a")
-        self.tab_chatbot = tk.Frame(self.notebook, bg="#0f172a")
-        self.tab_quiz = tk.Frame(self.notebook, bg="#0f172a")
-        self.tab_stats = tk.Frame(self.notebook, bg="#0f172a")
+        <!-- 2. تبويب المساعد الذكي -->
+        <section id="tab-bot" class="tab-content hidden max-w-3xl mx-auto bg-[#1e293b] rounded-xl border border-[#334155] overflow-hidden shadow-lg">
+            <div id="chat-box" class="h-[400px] overflow-y-auto p-6 space-y-4 bg-[#0f172a]/50">
+                <div class="bg-[#334155] p-3 rounded-lg max-w-[85%]">
+                    <span class="block font-bold text-[#3b82f6] text-xs mb-1">🤖 النظام الذكي</span>
+                    مرحباً بك في وحدة الرد الفوري! أنا محاكي الذكاء الاصطناعي للموقع. اسألني عن أي ثغرة أو طريقة حماية (مثل: حماية موقعي، اختراق، تشفير، فدية، SQL injection) وسأجيبك فوراً.
+                </div>
+            </div>
+            <div class="p-4 bg-[#1e293b] border-t border-[#334155] flex gap-2">
+                <input type="text" id="chat-input" placeholder="اكتب سؤالك الأمني هنا..." class="flex-1 bg-[#334155] border border-[#475569] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#3b82f6]">
+                <button onclick="sendMessage()" class="bg-[#10b981] hover:bg-[#059669] text-white font-bold px-6 py-3 rounded-lg transition">إرسال استشارة 🚀</button>
+            </div>
+        </section>
 
-        self.notebook.add(self.tab_education, text="📚 الموسوعة التعليمية التفصيلية")
-        self.notebook.add(self.tab_chatbot, text="🤖 مساعد الأمن السيبراني الذكي")
-        self.notebook.add(self.tab_quiz, text="📝 بنك الاختبارات الأكاديمية")
-        self.notebook.add(self.tab_stats, text="📊 لوحة التحكم والإنجازات")
+        <!-- 3. تبويب بنك الاختبارات -->
+        <section id="tab-quiz" class="tab-content hidden max-w-3xl mx-auto bg-[#1e293b] p-8 rounded-xl border border-[#334155] shadow-lg text-center">
+            <div id="quiz-intro">
+                <h2 class="text-2xl font-bold text-[#3b82f6] mb-4">🎯 تحدي بنك الاختبارات السيبرانية الاحترافي</h2>
+                <p class="text-[#94a3b8] mb-6">اختبار تفاعلي ديناميكي يقيس بدقة مستواك الأمني الحقيقي في ثغرات الويب، الشبكات، التشفير، والهندسة العكسية.</p>
+                <button onclick="startQuiz()" class="bg-[#3b82f6] hover:bg-[#2563eb] text-white font-bold px-8 py-4 rounded-xl text-lg shadow-md transition">توليد وبدء الاختبار الفوري ⚡</button>
+            </div>
+            <div id="quiz-game" class="hidden text-right">
+                <div id="quiz-progress" class="text-center text-[#3b82f6] font-medium mb-2"></div>
+                <h3 id="quiz-question" class="text-xl font-bold text-white mb-6 text-center"></h3>
+                <div id="quiz-options" class="space-y-3"></div>
+            </div>
+        </section>
 
-        self.build_education_tab()
-        self.build_chatbot_tab()
-        self.build_quiz_tab()
-        self.build_stats_tab()
+        <!-- 4. تبويب لوحة الإنجازات والرتب -->
+        <section id="tab-stats" class="tab-content hidden max-w-2xl mx-auto bg-[#1e293b] p-8 rounded-xl border border-[#334155] shadow-lg">
+            <h2 class="text-2xl font-bold text-center text-white mb-6">📊 لوحة مراقبة الكفاءة السيبرانية</h2>
+            <div class="space-y-4 border-b border-[#334155] pb-6 text-lg">
+                <p>إجمالي الأسئلة التي مررت بها: <span id="stat-total" class="font-bold text-[#3b82f6]">0</span></p>
+                <p>إجمالي الإجابات الصحيحة: <span id="stat-correct" class="font-bold text-[#10b981]">0</span></p>
+                <p>معدل الكفاءة العام والتصنيف: <span id="stat-ratio" class="font-bold text-[#f59e0b]">0.0%</span></p>
+            </div>
+            <div class="mt-6 text-center">
+                <h3 id="stat-rank" class="text-2xl font-extrabold text-[#ef4444]">🏅 الرتبة الحالية: مبتدئ (Script Kiddie)</h3>
+            </div>
+        </section>
 
-    # =========================================================================
-    # 1. تبويب الموسوعة التعليمية الضخمة (محتوى أكاديمي مكثف بكل تفصيلة)
-    # =========================================================================
-    def build_education_tab(self):
-        # تقسيم الشاشة إلى قائمة جانبية ومحتوى لعرض الدروس
-        left_frame = tk.Frame(self.tab_education, bg="#1e293b", width=250)
-        left_frame.pack(side=tk.LEFT, fill=tk.Y, padx=5, pady=5)
-        left_frame.pack_propagate(False)
+    </main>
 
-        right_frame = tk.Frame(self.tab_education, bg="#0f172a")
-        right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=5, pady=5)
+    <!-- نظام البرمجة والذكاء الاصطناعي للموقع (JavaScript) -->
+    <script>
+        // تفعيل التنقل بين التبويبات
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-[#3b82f6]', 'text-white');
+                btn.classList.add('bg-[#1e293b]', 'text-[#94a3b8]');
+            });
+            document.getElementById('btn-' + tabId).classList.remove('bg-[#1e293b]', 'text-[#94a3b8]');
+            document.getElementById('btn-' + tabId).classList.add('bg-[#3b82f6]', 'text-white');
+        }
 
-        tk.Label(left_frame, text="المسارات المتطورة", font=("Arial", 12, "bold"), bg="#1e293b", fg="#3b82f6", pady=10).pack()
+        // قاعدة بيانات الدروس والموسوعة
+        const lessonsData = {
+            web: `👉 مسار اختراق تطبيقات الويب المتقدم: ثغرة حقن أوامر قواعد البيانات (SQLi)
+            
+            🔹 الوصف الدقيق:
+            تحدث هذه الثغرة عندما يتم دمج مدخلات المستخدم مباشرة مع استعلامات SQL المرسلة إلى قاعدة البيانات دون فحص أو تصفية (Sanitization)، مما يتيح للمهاجم خداع التطبيق وتنفيذ أوامر عشوائية سرية.
+            
+            💥 سيناريو الهجوم:
+            تخيل حقل إدخال يرسل البيانات هكذا: SELECT * FROM users WHERE username = 'INPUT'
+            إذا كتب المهاجم: ' OR '1'='1 يتم تدمير منطق الاستعلام وتخطي لوحة التحكم بالكامل ودخول السيرفر بدون كلمة مرور!
+            
+            🛡️ آليات الدفاع الجذري:
+            1. استخدام الاستعلامات المجهزة (Prepared Statements) بشكل صارم ومطلق لفصل البيانات عن كود الاستعلام الداخلي.`,
+            xss: `👉 ثغرات الطرف العميل: Cross-Site Scripting (XSS) & CSRF
+            
+            🔹 ثغرة الـ XSS:
+            تمكن المهاجم من حقن أكواد وجافا سكريبت خبيثة داخل متصفحات المستخدمين الآخرين لسرقة ملفات الكوكيز وجلسات العمل النشطة (Session Cookies).
+            
+            🛡️ الحماية:
+            تشفير المخرجات بالكامل (Output Encoding) قبل عرضها بالمتصفح وتحويل الرموز الخاصة مثل < و > لرموز نصية آمنة.`,
+            net: `👉 مسار أمن الشبكات والبروتوكولات (Network Pentesting)
+            
+            🔹 هجوم رجل في المنتصف (MitM):
+            يتموضع المهاجم تقنياً بين جهاز الضحية وبين جهاز الراوتر عن طريق تسميم جدول الـ ARP لتمر كافة البيانات والاتصالات الحساسة غير المشفرة من خلال جهازه أولاً.
+            
+            🛡️ جدران الحماية (Firewall):
+            استخدام أنظمة منع التسلل المتقدمة (IPS) لتصفية وفحص الحزم الممررة وحظر الأنشطة المشبوهة فوراً.`,
+            rev: `👉 الهندسة العكسية وتحليل البرمجيات الخبيثة (Malware Analysis)
+            
+            🔹 تحليل الفدية والبرمجيات:
+            - التحليل الساكن (Static): دراسة أكواد الملف وبنيته دون تشغيله.
+            - التحليل الديناميكي (Dynamic): تشغيل الملف الضار داخل بيئة افتراضية معزولة تماماً (Sandbox) لمراقبة تصرفاته واتصالاته الحرة بالإنترنت والشبكة لردعه حمايةً للأنظمة.`
+        };
 
-        # نص عرض الشروحات
-        self.edu_text = scrolledtext.ScrolledText(right_frame, wrap=tk.WORD, font=("Arial", 12), bg="#1e293b", fg="#e2e8f0", spacing3=10, padx=10, pady=10)
-        self.edu_text.pack(fill=tk.BOTH, expand=True)
-        self.edu_text.insert(tk.END, "⚠️ اختر مساراً تعليمياً من القائمة الجانبية لبدء القراءة المتعمقة وتحليل الشيفرات والثغرات بالتفصيل الممل.")
-        self.edu_text.config(state=tk.DISABLED)
+        function loadLesson(key) {
+            document.getElementById('lesson-body').innerText = lessonsData[key];
+        }
 
-        # موسوعة المحتوى العلمي
-        self.cyber_encyclopedia = {
-            "1. ثغرات الويب: SQL Injection": (
-                "📌 مسار اختراق تطبيقات الويب المتقدم: ثغرة حقن أوامر قواعد البيانات (SQLi)\n\n"
-                "🔍 الوصف الدقيق:\n"
-                "تحدث هذه الثغرة عندما يتم دمج مدخلات المستخدم مباشرة مع استعلامات SQL المرسلة إلى قاعدة البيانات "
-                "دون فحص أو تصفية (Sanitization)، مما يتيح للمهاجم خداع التطبيق وتنفيذ أوامر 임 عشوائية.\n\n"
-                "💥 سيناريو الهجوم (Attack Scenario):\n"
-                "تخيل صفحة تسجيل دخول تطلب اسم المستخدم. الاستعلام الخلفي يكون كالتالي:\n"
-                "SELECT * FROM users WHERE username = '" + "USER_INPUT" + "' AND password = 'PAS';\n"
-                "إذا قام المهاجم بإدخال: ' OR '1'='1 في حقل اسم المستخدم، يتحول الاستعلام إلى:\n"
-                "SELECT * FROM users WHERE username = '' OR '1'='1' ...\n"
-                "بما أن شرط '1'='1' محقق دائماً، يتم تخطي الحماية فوراً والدخول لأي حساب دون الحاجة لكلمة مرور!\n\n"
-                "🛡️ آليات الدفاع الجذري (Remediation):\n"
-                "1. الاستعلامات المجهزة (Parameterized Queries / Prepared Statements): تفصل البيانات تماماً عن البنية البرمجية للاستعلام.\n"
-                "2. استخدام ميزانات التحقق المسبق (Input Validation) عبر قوائم السماح (Whitelisting).\n"
-                "3. تطبيق مبدأ الصلاحيات الأقل (Least Privilege) على حساب قاعدة البيانات بحيث لا يستطيع حذف الجداول."
-            ),
-            "2. ثغرات الويب: XSS & CSRF": (
-                "📌 ثغرات الطرف العميل: Cross-Site Scripting (XSS) & Cross-Site Request Forgery (CSRF)\n\n"
-                "🔍 أولاً: ثغرة الـ XSS (حقن السكريبتات عبر المواقع):\n"
-                "تمكن المهاجم من حقن أكواد JavaScript خبيثة داخل صفحات يزورها مستخدمون آخرون. تنقسم إلى ثلاثة أنواع:\n"
-                "- Stored XSS: الكود الخبيث يُخزن في قاعدة البيانات (مثل التعليقات) ويعمل عند كل زائر للعنوان.\n"
-                "- Reflected XSS: الكود يُرسل ضمن الرابط (URL) وينفذ فوراً للضحية الذي يضغط عليه.\n"
-                "- DOM-based XSS: الثغرة تكون بالكامل في كود الجافاسكريبت الخاص بالمتصفح أثناء معالجة المدخلات.\n\n"
-                "🎯 خطرها الشديد: سرقة ملفات تعريف الارتباط (Session Cookies) واختطاف الحسابات.\n\n"
-                "🔍 ثانياً: ثغرة الـ CSRF (تزوير الطلبات عبر المواقع):\n"
-                "إجبار الضحية (دون علمه) على إرسال طلب أمني خبيث إلى موقع هو مسجل الدخول فيه بالفعل. "
-                "على سبيل المثال، يقوم المهاجم بوضع رابط مخفي لتغيير البريد الإلكتروني في موقع بنكي، "
-                "وعند زيارة الضحية لمدونة المهاجم، يقوم المتصفح بإرسال الطلب للبنك تلقائياً لأن الكوكيز مخزنة.\n\n"
-                "🛡️ سبل الدفاع:\n"
-                "- للـ XSS: استخدام التشفير الخارجي للمخرجات (Context-Aware Output Encoding) مثل تحويل < إلى &lt;.\n"
-                "- للـ CSRF: توليد واستخدام رموز الحماية العشوائية الفريدة (Anti-CSRF Tokens) لكل عملية حساسة."
-            ),
-            "3. أمن الشبكات والبروتوكولات": (
-                "📌 مسار بنية الشبكات التحتية وهندسة الاختراق (Network Pentesting):\n\n"
-                "🔍 فهم عائلة بروتوكولات TCP/IP:\n"
-                "الشبكات تعتمد على نقل حزم البيانات (Packets). الخلل الأمني يكمن في التصميم الأصلي لبعض البروتوكولات:\n"
-                "- HTTP / FTP / Telnet: تنقل البيانات بنص واضح (Plain Text) مما يجعلها صيداً سهلاً لهجمات التسمع والاعتراض.\n"
-                "- HTTPS / SFTP / SSH: الحل البديل الآمن، حيث يتم تشفير القناة بأكملها باستخدام بروتوكول TLS/SSL.\n\n"
-                "💥 هجوم رجل في المنتصف (Man-in-the-Middle - MitM):\n"
-                "يتموضع المهاجم بين الضحية والموجّه (Router) عبر تقنية 'تسميم بروتوكول ARP' (ARP Poisoning)، "
-                "حيث يرسل رسائل ARP وهمية تجعل جهاز الضحية يظن أن المهاجم هو الراوتر، والعكس صحيح، وبالتالي تمر كل البيانات من خلاله.\n\n"
-                "🛡️ جدران الحماية وأنظمة الكشف (Firewalls, IDS/IPS):\n"
-                "- جدار الحماية (Firewall): يراقب الحزم بناءً على قواعد ثابتة (IP, Port).\n"
-                "- نظام كشف التسلل (IDS): يحلل الأنماط السلوكية ويكتشف الهجمات دون إيقافها.\n"
-                "- نظام منع التسلل (IPS): يكتشف الهجوم ويقوم بقطع الاتصال وحظر المهاجم فوراً لحماية الشبكة."
-            ),
-            "4. الهندسة العكسية وتحليل البرمجيات الخبيثة": (
-                "📌 مسار الهندسة العكسية (Reverse Engineering) وتحليل الـ Malware:\n\n"
-                "🔍 البرمجيات الخبيثة تنقسم إلى عدة أنواع خطيرة:\n"
-                "1. الفيروسات (Viruses): تتطلب تدخلاً من المستخدم لتلتصق بملف تنفيذي وتنتشر.\n"
-                "2. الديدان (Worms): برمجيات مستقلة تنتشر ذاتياً عبر ثغرات الشبكة (مثل ورم WannaCry الشهير).\n"
-                "3. برامج الفدية (Ransomware): تقوم بتشفير كافة ملفات الضحية بخوارزميات معقدة مثل AES-256، وتطلب عملات رقمية لفكها.\n\n"
-                "🔬 منهجيات التحليل المتقدمة:\n"
-                "- التحليل الساكن (Static Analysis): فحص الملف التنفيذي دون تشغيله، وقراءة النصوص البرمجية (Strings)، واستخراج قيم الـ Hash، وتحليل الـ PE Header.\n"
-                "- التحليل الديناميكي (Dynamic Analysis): تشغيل الملف في بيئة معزولة تماماً (Sandbox) ومراقبة التعديلات في نظام الريجستري (Registry)، والاتصالات بالشبكة، وتغيرات الذاكرة.\n"
-                "- تفكيك الأكواد (Disassembly / Decompilation): استخدام أدوات مثل IDA Pro أو Ghidra لتحويل لغة الآلة الثنائية (Binary) إلى لغة أسمبلي (Assembly) أو كود C مفهوم لفهم المنطق البرمجي للفايروس."
-            ),
-            "5. التشفير المتقدم وأنظمة التعمية": (
-                "📌 مسار الرياضيات التطبيقية: علم التشفير (Cryptography):\n\n"
-                "🔍 التشفير المتماثل (Symmetric Cryptography):\n"
-                "يستخدم مفتاحاً سرياً واحداً لعمليتي التشفير وفك التشفير. يتميز بالسرعة الفائقة لابتلاع كميات بيانات ضخمة.\n"
-                "أبرز خوارزمياته المعتمدة عالمياً: AES (Advanced Encryption Standard).\n\n"
-                "🔍 التشفير غير المتماثل (Asymmetric Cryptography):\n"
-                "يحل معضلة تبادل المفاتيح الأمني. يعتمد على زوج من المفاتيح الرياضية المترابطة:\n"
-                "- المفتاح العام (Public Key): يوزع للجميع ويستخدم فقط لتشفير البيانات.\n"
-                "- المفتاح الخاص (Private Key): يظل سرياً جداً مع صاحبه وهو الوحيد القادر على فك التشفير.\n"
-                "أشهر الخوارزميات: RSA (تعتمد على صعوبة تحليل العوامل الأولية للأعداد الضخمة)، و ECC (تشفير المنحنيات البيضاوية).\n\n"
-                "🔍 دوال الهاش الرقمية (Cryptographic Hashing):\n"
-                "دوال ذات اتجاه واحد (One-Way) تحول أي نص مهما كان حجمه إلى سلسلة ثابتة الطول (مثل SHA-256). "
-                "تتميز بخاصية Avalanche Effect (أي تغيير في حرف واحد يغير الهاش بالكامل) وتُستخدم للتحقق من سلامة الملفات (Integrity) وتخزين كلمات المرور الآمنة."
+        // محرك الرد الذكي الفوري المدمج
+        function sendMessage() {
